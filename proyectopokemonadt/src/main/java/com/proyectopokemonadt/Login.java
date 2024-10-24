@@ -5,20 +5,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.channels.Pipe.SourceChannel;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 
 
 public class Login {
     private static Login instance;
-    private String usuario;
-    private String contraseña;
 
     private Login() {}
 
@@ -27,18 +20,6 @@ public class Login {
             instance = new Login();
         }
         return instance;
-    }
-    
-    public static void readLog (String usuario, String contraseña) {
-        File log = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "log.txt");
-        try {
-            FileReader fr = new FileReader(log);
-            BufferedReader br = new BufferedReader(fr);
-            
-
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
     }
 
     public static void writeLog(String usuario) {
@@ -54,33 +35,39 @@ public class Login {
                     + lt.getHour() + ":" + lt.getMinute() + ":" + lt.getSecond() + "]" +"->" + " El usuario " + usuario + " ha sido logueado correctamente.");
             bw.newLine();
             bw.close();
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public boolean comprobarUsuario(String nombre, String pass) {
-        
-        String buscar;
-        File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios","usuarios.txt");
+    public boolean comprobarUsuario(String nombre, String pass, String rol) {
+        if(rol != "INV"){
+            String buscar;
+            File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios","usuarios.txt");
 
-        try {
-            FileReader fr = new FileReader(rd);
-            BufferedReader br = new BufferedReader(fr);
+            try {
+                FileReader fr = new FileReader(rd);
+                BufferedReader br = new BufferedReader(fr);
 
-            while ((buscar = br.readLine()) != null) {
-                if (buscar.equals(nombre)) {
-                    if(br.readLine().equals(pass)){
-                        writeLog(nombre);
-                        return true;
+                while ((buscar = br.readLine()) != null) {
+                    if (buscar.equals(nombre)) {
+                        if(br.readLine().equals(pass)){
+                            writeLog(nombre);
+                            br.close();
+                            return true;
+                        }
                     }
                 }
+                br.close();
+                return false;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
             return false;
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
-        return false;
+        System.out.println("Sesion iniciada como Invitado.");
+        System.out.println("Inicie sesion con unas credenciales validas para acceder al resto de caracteristicas.");
+        return true;
     }
 }

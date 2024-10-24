@@ -2,7 +2,7 @@ package com.proyectopokemonadt.clasesBasicas;
 
 public class Entrenador {
     private long id;
-    private String  nombre;
+    private String nombre;
     private String nacionalidad;
 
     public Entrenador (long id, String nombre, String nacionalidad){
