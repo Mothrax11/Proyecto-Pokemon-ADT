@@ -9,7 +9,9 @@ import com.proyectopokemonadt.clasesBasicas.Torneo;
 public class Main {
 
     public static void main(String[] args) {
-
+        ArrayList<Torneo> torneos = new ArrayList<>();
+        Torneo torneoDefault = new Torneo(1l, "Torneo Default", 'E', 0l,1000000);
+        torneos.add(torneoDefault);
         Scanner sc = new Scanner(System.in);
         Menus.menuPrincipal();
         int eleccion = sc.nextInt();
@@ -24,16 +26,13 @@ public class Main {
             System.out.println("¿Cuál es tu contraseña?");
             String contraseña = sc.next();
             System.out.println("¿Cuál es tu nacionalidad?");
-            // ShowNations.show();
+            ShowNations.show();
             String nacionalidad = sc.next();
             if (nombre.equals("admingeneral") && contraseña.equals("Passw0rd")) {
                 Menus.mostrarMenuAdminGeneral();
                 int choice = sc.nextInt();
                 boolean booleanTorVal = false;
                 String nombreTorneo = "";
-                ArrayList<Torneo> torneos = new ArrayList<>();
-                Torneo torneoDefault = new Torneo(1l, "Torneo Default", 'E', 0l, 0);
-                torneos.add(torneoDefault);
                 long idTorneo = 100000l;
 
                 if (choice == 1) {
@@ -78,8 +77,8 @@ public class Main {
                         System.out.println("¿Cual es el id del administrador responsable?: ");
                         long idResponsable = sc.nextInt();
 
-                        Torneo t1 = new Torneo(Registro.idGenerator(), nombreTorneo, codRegion, puntosVictoria,
-                                idResponsable);
+                        Torneo t1 = new Torneo(idTorneo, nombreTorneo, codRegion, puntosVictoria, idResponsable);
+                        idTorneo++;
                         booleanTorVal = true;
                     }
                 }
@@ -87,13 +86,13 @@ public class Main {
             } else {
                 if (Login.getInstance().comprobarUsuario(nombre, contraseña, nacionalidad, Registro.idGenerator(),
                         "ENT")) {
-                    Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad, Registro.idGenerator());
+                    Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad, Registro.idGenerator(), torneos);
                     Menus.mostrarMenuEntrenador();
                     int choice = sc.nextInt();
                     if (choice == 1) {
-                        Exportar ex = new Exportar(activeUser.getNombre(), activeUser.getNacionalidad(), activeUser.getPuntos(),
-                                activeUser.getFechaCreacion());
+                        Exportar ex = new Exportar(activeUser.getNombre(), activeUser.getNacionalidad(), activeUser.getPuntos(), activeUser.getFechaCreacion(), activeUser.getId(), torneos);
                         ex.ejecutar();
+                        System.out.println(activeUser.getId());
                     }
                 }
             }
@@ -108,20 +107,19 @@ public class Main {
                 System.out.println("¿Cuál es tu contraseña?");
                 String contraseña = sc.next();
                 System.out.println("¿Cuál es tu nacionalidad?");
-                // ShowNations.show();
+                ShowNations.show();
                 String nacionalidad = sc.next();
                 if (nombre.equals("admingeneral") && contraseña.equals("Passw0rd")) {
                     Menus.mostrarMenuAdminGeneral();
                 } else {
-                    if (Login.getInstance().comprobarUsuario(nombre, contraseña, nacionalidad, Registro.idGenerator(),
-                            "ENT")) {
-                        Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad,
-                                Registro.idGenerator());
+                    if (Login.getInstance().comprobarUsuario(nombre, contraseña, nacionalidad, Registro.idGenerator(),"ENT")) {
+                                
+                        Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad, Registro.idGenerator(), torneos);
                         Menus.mostrarMenuEntrenador();
                         choice = sc.nextInt();
                         if (choice == 1) {
                             Exportar ex = new Exportar(activeUser.getNombre(), activeUser.getPass(),
-                                    activeUser.getPuntos(), activeUser.getFechaCreacion());
+                                    activeUser.getPuntos(), activeUser.getFechaCreacion(), activeUser.getId(), torneos);
                             ex.ejecutar();
                         }
                     }

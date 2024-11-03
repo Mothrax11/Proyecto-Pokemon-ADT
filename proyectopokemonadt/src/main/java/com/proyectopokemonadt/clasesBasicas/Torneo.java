@@ -1,14 +1,10 @@
 package com.proyectopokemonadt.clasesBasicas;
 
-import com.proyectopokemonadt.Usuario;
-
 public class Torneo {
     private long id;
     private String nombre;
     private char codRegion;
     private float puntosVictoria;
-    private String organizador;
-    private String nacOrganizador;
     private long idResponsable;
 
     public Torneo (long id, String nombre, char codRegion, float puntosVictoria, long idResponsable) {
@@ -17,7 +13,6 @@ public class Torneo {
             this.nombre = nombre;
             this.codRegion = codRegion;
             this.puntosVictoria = puntosVictoria;
-            this.organizador = "admin";
             this.idResponsable = idResponsable;
     }
 
@@ -35,6 +30,10 @@ public class Torneo {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public long getIdResponsable() {
+        return idResponsable;
     }
 
     public char getCodRegion() {

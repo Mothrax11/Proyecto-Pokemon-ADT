@@ -12,9 +12,7 @@ public class Registro {
     private static long id = 999999;
     private static boolean registerOK = false;
     public static void registroData() {
-        boolean sesionAdmin = false;
         
-        boolean su = false;
         Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
         Scanner sc = new Scanner(System.in);
         boolean vb = false;
@@ -30,13 +28,11 @@ public class Registro {
 
             System.out.println("¿Cual es tu nacionalidad?");
             // Muestra la lista de todos los paises para la eleccion del usuario
-            // ShowNations.show();
+            ShowNations.show();
             String nacionalidad = sc.next();
 
             if (creadorUsuario(nombre, contraseña, rol, nacionalidad)) {
                 System.out.println("Se ha registrado correctamente con el usuario " + nombre);
-                vb = true;
-                sesionAdmin = true;
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }

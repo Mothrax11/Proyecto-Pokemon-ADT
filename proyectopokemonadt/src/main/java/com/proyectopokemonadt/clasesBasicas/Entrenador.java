@@ -1,6 +1,7 @@
 package com.proyectopokemonadt.clasesBasicas;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Entrenador {
     private long id;
@@ -10,13 +11,15 @@ public class Entrenador {
     private String contraseña;
     private Carnet carnet;
     private LocalDate fechaCreacion = LocalDate.now();
+    private ArrayList<Torneo> torneos;
 
-    public Entrenador (String nombre, String pass, String nacionalidad, long id){
+    public Entrenador (String nombre, String pass, String nacionalidad, long id, ArrayList<Torneo> torneos){
         this.nombre = nombre;
         this.contraseña = pass;
         this.nacionalidad = nacionalidad;
         this.id  = id;
         this.carnet = new Carnet(id, fechaCreacion);
+        this.torneos = torneos;
     }
 
     public long getId() {

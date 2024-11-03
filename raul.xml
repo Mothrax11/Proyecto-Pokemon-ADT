@@ -1,1 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><carnet><id>1000</id><fechaexp>03 11 2024</fechaexp><entrenador><nombre>raul</nombre><nacionalidad>es</nacionalidad><hoy>03 11 2024</hoy><puntos>0</puntos></entrenador></carnet>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<carnet>
+    <id>1000</id>
+    <fechaexp>03 11 2024</fechaexp>
+    <entrenador>
+        <nombre>raul</nombre>
+        <nacionalidad>es</nacionalidad>
+        <hoy>03 11 2024</hoy>
+        <puntos>0</puntos>
+    </entrenador>
+    <torneos>
+        <torneo>
+            <nombre>Torneo Default</nombre>
+            <region>E</region>
+        </torneo>
+    </torneos>
+</carnet>
