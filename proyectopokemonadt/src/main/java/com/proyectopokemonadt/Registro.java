@@ -5,13 +5,19 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.proyectopokemonadt.clasesBasicas.Entrenador;
+import com.proyectopokemonadt.clasesBasicas.Torneo;
 
 public class Registro {
 
     private static long id = 999999;
     private static boolean registerOK = false;
+    private static ArrayList<Torneo> torneos = new ArrayList<>();
     public static void registroData() {
+
         
         Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
         Scanner sc = new Scanner(System.in);
@@ -33,6 +39,8 @@ public class Registro {
 
             if (creadorUsuario(nombre, contraseña, rol, nacionalidad)) {
                 System.out.println("Se ha registrado correctamente con el usuario " + nombre);
+                vb = true;
+                GestionEntrenadores.añadirEntrenadores(new Entrenador(nombre, contraseña, nacionalidad, Registro.idGenerator()));
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }

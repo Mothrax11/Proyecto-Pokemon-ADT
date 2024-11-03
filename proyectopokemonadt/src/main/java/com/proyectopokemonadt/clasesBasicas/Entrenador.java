@@ -1,9 +1,10 @@
 package com.proyectopokemonadt.clasesBasicas;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Entrenador {
+public class Entrenador implements Serializable {
     private long id;
     private String nombre;
     private String nacionalidad;
@@ -11,14 +12,25 @@ public class Entrenador {
     private String contraseña;
     private Carnet carnet;
     private LocalDate fechaCreacion = LocalDate.now();
-    private ArrayList<Torneo> torneos;
+    private ArrayList<Torneo> torneos = new ArrayList<>();
 
-    public Entrenador (String nombre, String pass, String nacionalidad, long id, ArrayList<Torneo> torneos){
+    public Entrenador (String nombre, String pass, String nacionalidad, long id){
         this.nombre = nombre;
         this.contraseña = pass;
         this.nacionalidad = nacionalidad;
         this.id  = id;
         this.carnet = new Carnet(id, fechaCreacion);
+    }
+
+    public void añadirTorneo(Torneo torneo){
+        torneos.add(torneo);
+    }
+
+    public ArrayList<Torneo> getTorneos() {
+        return torneos;
+    }
+
+    public void setTorneos(ArrayList<Torneo> torneos) {
         this.torneos = torneos;
     }
 

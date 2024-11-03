@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.BreakIterator;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -52,6 +53,11 @@ public class Login {
                 while ((buscar = br.readLine()) != null) {
                     if (buscar.equals(nombre)){
                         if(br.readLine().equals(pass)){
+                            br.readLine();
+                            br.readLine();
+                            if(br.readLine().equals("AT")){
+                                break;   
+                            }
                             writeLog(nombre);
                             br.close();
                             return true;

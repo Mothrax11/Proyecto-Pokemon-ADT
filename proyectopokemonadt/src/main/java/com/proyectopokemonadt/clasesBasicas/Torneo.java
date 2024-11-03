@@ -1,11 +1,14 @@
 package com.proyectopokemonadt.clasesBasicas;
 
+import java.util.ArrayList;
+
 public class Torneo {
     private long id;
     private String nombre;
     private char codRegion;
     private float puntosVictoria;
     private long idResponsable;
+    private ArrayList<Entrenador> participantes = new ArrayList<>();
 
     public Torneo (long id, String nombre, char codRegion, float puntosVictoria, long idResponsable) {
         
@@ -16,12 +19,32 @@ public class Torneo {
             this.idResponsable = idResponsable;
     }
 
+    public void inscribir(Entrenador entrenador){
+        participantes.add(entrenador);
+    }
+
     public long getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setIdResponsable(long idResponsable) {
+        this.idResponsable = idResponsable;
+    }
+
+    public ArrayList<Entrenador> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(ArrayList<Entrenador> participantes) {
+        this.participantes = participantes;
     }
 
     public String getNombre() {

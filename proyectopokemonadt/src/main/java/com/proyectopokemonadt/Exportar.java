@@ -1,6 +1,8 @@
 package com.proyectopokemonadt;
 
 import org.w3c.dom.*;
+
+import com.proyectopokemonadt.clasesBasicas.Entrenador;
 import com.proyectopokemonadt.clasesBasicas.Torneo;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -68,14 +70,17 @@ public class Exportar {
      private  LocalDate fechaCreacion;
      private  ArrayList<Torneo> torneos = new ArrayList<>();
      private  long idEntrenador;
+     private Entrenador entrenador;
     
-    public Exportar(String nombre, String nacionalidad, long puntos, LocalDate fechaCreacion, long idEntrenador, ArrayList<Torneo> torneos) {
-        this.nombre = nombre;
-        this.nacionalidad = nacionalidad;
-        this.puntos = puntos;
-        this.fechaCreacion = fechaCreacion;
-        this.torneos = torneos;   
-        this.idEntrenador = idEntrenador; 
+    public Exportar(Entrenador entrenador) {
+        this.entrenador = entrenador;
+        this.nombre = entrenador.getNombre();
+        this.idEntrenador = entrenador.getId(); 
+        this.nacionalidad = entrenador.getNacionalidad();
+        this.puntos = entrenador.getPuntos();
+        this.fechaCreacion = entrenador.getFechaCreacion();
+        this.torneos = entrenador.getTorneos();   
+        this.idEntrenador = entrenador.getId(); 
     }
 
     public void ejecutar() {
@@ -91,7 +96,7 @@ public class Exportar {
         }
     }
 
-    public  void crearXML(Document doc){
+    public void crearXML(Document doc){
         doc.setXmlVersion("1.0");
         long id = 1000;
         LocalDate ld = LocalDate.now();
@@ -111,19 +116,16 @@ public class Exportar {
         
         Element elementoTorneos = doc.createElement("torneos");
         doc.getDocumentElement().appendChild(elementoTorneos);
-        for (int i = 0; i < torneos.size(); i++){
-            if(torneos.get(i).getIdResponsable() == idEntrenador){
+System.out.println(entrenador.getTorneos().size());
+        for (int i = 0; i < entrenador.getTorneos().size(); i++){
 
                 Element elementoTorneo = doc.createElement("torneo");
                 elementoTorneos.appendChild(elementoTorneo);
                 crearElemento("nombre", torneos.get(i).getNombre(), doc, elementoTorneo);
-
                 String regionTorneo = Character.toString(torneos.get(i).getCodRegion());
                 crearElemento("region", regionTorneo, doc, elementoTorneo);
-
-
             }
-        }
+        
 
         Source source = new DOMSource(doc);
         Result result = new StreamResult(new File(nombre + ".xml"));
