@@ -9,14 +9,16 @@ public class Torneo {
     private float puntosVictoria;
     private String organizador;
     private String nacOrganizador;
+    private long idResponsable;
 
-    public Torneo (long id, String nombre, char codRegion, float puntosVictoria) {
+    public Torneo (long id, String nombre, char codRegion, float puntosVictoria, long idResponsable) {
         
             this.id = id;
             this.nombre = nombre;
             this.codRegion = codRegion;
             this.puntosVictoria = puntosVictoria;
             this.organizador = "admin";
+            this.idResponsable = idResponsable;
     }
 
     public long getId() {

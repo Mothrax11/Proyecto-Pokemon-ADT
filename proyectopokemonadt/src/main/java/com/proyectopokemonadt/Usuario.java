@@ -7,7 +7,7 @@ public class Usuario {
     private long id;
     private String rol;
 
-    public Usuario(String nombre, String pass,String nacionalidad, long id,  String rol) {
+    public Usuario(String nombre, String pass, String nacionalidad, long id, String rol) {
         this.id = id;
         this.pass = pass;
         this.nombre = nombre;
@@ -21,6 +21,10 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getPass(){
+        return pass;
     }
 
     public String getNacionalidad() {

@@ -35,23 +35,22 @@ public class Login {
                     + lt.getHour() + ":" + lt.getMinute() + ":" + lt.getSecond() + "]" +"->" + " El usuario " + usuario + " ha sido logueado correctamente.");
             bw.newLine();
             bw.close();
-            
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public boolean comprobarUsuario(String nombre, String pass, String rol) {
-        if(rol != "INV"){
+    public boolean comprobarUsuario(String nombre, String pass, String nacionalidad, long id, String rol) {
             String buscar;
             File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios","usuarios.txt");
 
             try {
                 FileReader fr = new FileReader(rd);
                 BufferedReader br = new BufferedReader(fr);
-
+                
                 while ((buscar = br.readLine()) != null) {
-                    if (buscar.equals(nombre)) {
+                    if (buscar.equals(nombre)){
                         if(br.readLine().equals(pass)){
                             writeLog(nombre);
                             br.close();
@@ -64,10 +63,6 @@ public class Login {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return false;
-        }
-        System.out.println("Sesion iniciada como Invitado.");
-        System.out.println("Inicie sesion con unas credenciales validas para acceder al resto de caracteristicas.");
         return true;
     }
 }

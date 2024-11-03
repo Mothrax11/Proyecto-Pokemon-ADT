@@ -15,6 +15,11 @@ public class Carnet {
         this.numVictorias = numVictorias;
     }
 
+    public Carnet(Long idEntrenador, LocalDate fechaExpedicion){
+        this.idEntrenador = idEntrenador;
+        this.fechaExpedicion = fechaExpedicion;
+    }
+
     public long getIdEntrenador() {
         return idEntrenador;
     }

@@ -11,34 +11,45 @@ public class Registro {
 
     private static long id = 999999;
     private static boolean registerOK = false;
-    public Registro() {
+    public static void registroData() {
+        boolean sesionAdmin = false;
+        
+        boolean su = false;
+        Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
         Scanner sc = new Scanner(System.in);
-        System.out.println("Nombre del usuario añadir: ");
-        String nombre = sc.nextLine();
-        System.out.println("Contraseña del usuario a añadir: ");
-        String contraseña = sc.nextLine();
-        System.out.println("Nacionalidad del usuario: ");
-        String nacionalidad = sc.nextLine();
+        boolean vb = false;
+        while (!vb) {
 
-        while (!usuarioExistente(nombre, nacionalidad)){
-            System.out.println("Este nombre de usuario ya está en uso, utilice otro.");
-            sc = new Scanner(System.in);
-            System.out.println("Nombre del usuario añadir: ");
-            nombre = sc.nextLine();
-            System.out.println("Contraseña del usuario a añadir: ");
-            contraseña = sc.nextLine();
-            System.out.println("Nacionalidad del usuario: ");
-            nacionalidad = sc.nextLine();
+            System.out.println("¿Cuál es tu nombre?");
+            String nombre = sc.next();
+
+            System.out.println("¿Cuál es tu contraseña?");
+            String contraseña = sc.next();
+
+            String rol = "ENT";
+
+            System.out.println("¿Cual es tu nacionalidad?");
+            // Muestra la lista de todos los paises para la eleccion del usuario
+            // ShowNations.show();
+            String nacionalidad = sc.next();
+
+            if (creadorUsuario(nombre, contraseña, rol, nacionalidad)) {
+                System.out.println("Se ha registrado correctamente con el usuario " + nombre);
+                vb = true;
+                sesionAdmin = true;
+            } else {
+                System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
+            }
         }
     }
 
     public static boolean creadorUsuario (String nombre, String contraseña, String tipoUsuario, String nacionalidad){
-        if (usuarioExistente(nombre, nacionalidad)){
-            
+        if (usuarioExistente(nombre, contraseña)){
+
         } else {
-            File log = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "usuarios.txt");
+            File usrs = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "usuarios.txt");
             try {
-                FileWriter fw = new FileWriter(log, true);
+                FileWriter fw = new FileWriter(usrs, true);
                 BufferedWriter bf = new BufferedWriter(fw);
                 bf.write(nombre);
                 bf.newLine();
@@ -57,7 +68,7 @@ public class Registro {
         return false;
     }
 
-    public static boolean usuarioExistente(String nombre, String nacionalidad){
+    public static boolean usuarioExistente(String nombre, String contraseña){
         String buscar;
         File rd = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "usuarios.txt");
 
@@ -65,15 +76,21 @@ public class Registro {
             FileReader fr = new FileReader(rd);
             BufferedReader br = new BufferedReader(fr);
 
-            while ((buscar = br.readLine()) != null){
-                if(buscar.equals(nombre)){
-                    buscar = br.readLine();
-                    if(buscar.equals(nacionalidad)){
-                        br.close();
-                        return true;
+            if (rd.length() == 0){
+                br.close();
+                return false;
+            } else {
+                while ((buscar = br.readLine()) != null){
+                    if(buscar.equals(nombre)){
+                        buscar = br.readLine();
+                        if(buscar.equals(contraseña)){
+                            br.close();
+                            return true;
+                        }
                     }
                 }
             }
+            
             br.close();
             return false;
 
