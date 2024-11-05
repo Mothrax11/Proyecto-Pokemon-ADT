@@ -3,6 +3,8 @@ package com.proyectopokemonadt;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.proyectopokemonadt.complementarias.ShowNations;
+
 
 public class GestorDeContenidos extends DefaultHandler {
     @Override

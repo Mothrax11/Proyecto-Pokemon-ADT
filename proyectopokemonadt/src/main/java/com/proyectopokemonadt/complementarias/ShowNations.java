@@ -1,8 +1,11 @@
-package com.proyectopokemonadt;
+package com.proyectopokemonadt.complementarias;
 
 import javax.xml.parsers.SAXParser;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
+import com.proyectopokemonadt.GestorDeContenidos;
+
 import java.util.ArrayList;
 import javax.xml.parsers.SAXParserFactory;
 

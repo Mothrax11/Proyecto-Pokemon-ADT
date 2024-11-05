@@ -1,4 +1,4 @@
-package com.proyectopokemonadt;
+package com.proyectopokemonadt.autenticacion;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,18 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import com.proyectopokemonadt.clasesBasicas.Entrenador;
 import com.proyectopokemonadt.clasesBasicas.Torneo;
+import com.proyectopokemonadt.complementarias.ShowNations;
 
 public class Registro {
 
-    private static long id = 999999;
     private static boolean registerOK = false;
     private static ArrayList<Torneo> torneos = new ArrayList<>();
     public static void registroData() {
-
-        
         Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
         Scanner sc = new Scanner(System.in);
         boolean vb = false;
@@ -32,36 +28,44 @@ public class Registro {
 
             String rol = "ENT";
 
-            System.out.println("¿Cual es tu nacionalidad?");
-            // Muestra la lista de todos los paises para la eleccion del usuario
-            ShowNations.show();
-            String nacionalidad = sc.next();
-
-            if (creadorUsuario(nombre, contraseña, rol, nacionalidad)) {
+            if (creadorUsuario(nombre, contraseña, rol, idGenerator.generador())) {
                 System.out.println("Se ha registrado correctamente con el usuario " + nombre);
                 vb = true;
-                GestionEntrenadores.añadirEntrenadores(new Entrenador(nombre, contraseña, nacionalidad, Registro.idGenerator()));
+            } else {
+                System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
+            }
+        }
+        }
+    public static void registroDataAT(String nombreAT, String passAT, String rol) {
+        Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
+        Scanner sc = new Scanner(System.in);
+        boolean vb = false;
+        while (!vb) {
+            if (creadorUsuario(nombreAT, passAT, rol, idGenerator.generador())) {
+                System.out.println("Se ha registrado correctamente con el usuario " + nombreAT);
+                vb = true;
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
         }
     }
 
-    public static boolean creadorUsuario (String nombre, String contraseña, String tipoUsuario, String nacionalidad){
+    public static boolean creadorUsuario (String nombre, String contraseña, String tipoUsuario, long id){
+        int idInt = (int)id;
         if (usuarioExistente(nombre, contraseña)){
 
         } else {
-            File usrs = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "usuarios.txt");
+            File usrs = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "credenciales.txt");
             try {
                 FileWriter fw = new FileWriter(usrs, true);
                 BufferedWriter bf = new BufferedWriter(fw);
                 bf.write(nombre);
-                bf.newLine();
+                bf.write(" ");
                 bf.write(contraseña);
-                bf.newLine();
-                bf.write(nacionalidad);
-                bf.newLine();
+                bf.write(" ");
                 bf.write(tipoUsuario);
+                bf.write(" ");
+                bf.write(idInt);
                 bf.newLine();
                 bf.close();
                 return true;
@@ -74,7 +78,7 @@ public class Registro {
 
     public static boolean usuarioExistente(String nombre, String contraseña){
         String buscar;
-        File rd = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "usuarios.txt");
+        File rd = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "credenciales.txt");
 
         try {
             FileReader fr = new FileReader(rd);
@@ -85,13 +89,13 @@ public class Registro {
                 return false;
             } else {
                 while ((buscar = br.readLine()) != null){
-                    if(buscar.equals(nombre)){
-                        buscar = br.readLine();
-                        if(buscar.equals(contraseña)){
-                            br.close();
-                            return true;
-                        }
+                    String [] palabrasLinea = buscar.split(" ");
+                    if(palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(contraseña)){
+                        br.close();
+                        return true;   
                     }
+
+                    
                 }
             }
             
@@ -108,7 +112,4 @@ public class Registro {
         return registerOK;
     }
 
-    public static long idGenerator(){
-        return id++;
-    }
 }

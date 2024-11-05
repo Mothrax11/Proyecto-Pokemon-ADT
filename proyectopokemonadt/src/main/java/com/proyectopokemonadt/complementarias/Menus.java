@@ -1,4 +1,4 @@
-package com.proyectopokemonadt;
+package com.proyectopokemonadt.complementarias;
 
 public class Menus {
     public static void menuPrincipal(){
@@ -29,6 +29,11 @@ public class Menus {
         System.out.print("\033[H\033[2J");
         System.out.println("Bienvenido Entrenador, ¿que desea hacer?");
         System.out.println("1 -> Exportar mi carnet");
+        }
+    public static void mostrarMenuAdministradorTorneos(){
+        System.out.print("\033[H\033[2J");
+        System.out.println("Bienvenido Administrador de Torneos, ¿que desea hacer?");
+        System.out.println("1 -> Salir.");
         }
        
 }

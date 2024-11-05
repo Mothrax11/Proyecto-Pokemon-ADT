@@ -1,13 +1,13 @@
-package com.proyectopokemonadt;
+package com.proyectopokemonadt.autenticacion;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.text.BreakIterator;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import com.proyectopokemonadt.complementarias.*;
 
 
 
@@ -42,26 +42,23 @@ public class Login {
         }
     }
 
-    public boolean comprobarUsuario(String nombre, String pass, String nacionalidad, long id, String rol) {
+    public boolean comprobarUsuario(String nombre, String pass, long id, String rol) {
             String buscar;
-            File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios","usuarios.txt");
+            File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios","credenciales.txt");
 
             try {
                 FileReader fr = new FileReader(rd);
                 BufferedReader br = new BufferedReader(fr);
                 
                 while ((buscar = br.readLine()) != null) {
-                    if (buscar.equals(nombre)){
-                        if(br.readLine().equals(pass)){
-                            br.readLine();
-                            br.readLine();
-                            if(br.readLine().equals("AT")){
-                                break;   
-                            }
-                            writeLog(nombre);
-                            br.close();
-                            return true;
+                    String [] palabrasLinea = buscar.split(" ");
+                    if(palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(pass)){
+                        if(palabrasLinea[2].equals("AT")){
+                            Menus.mostrarMenuAdministradorTorneos();
                         }
+                        writeLog(nombre);
+                        br.close();
+                        return true;
                     }
                 }
                 br.close();

@@ -1,4 +1,4 @@
-package com.proyectopokemonadt;
+package com.proyectopokemonadt.autenticacion;
 
 public class Usuario {
     private String nombre;
