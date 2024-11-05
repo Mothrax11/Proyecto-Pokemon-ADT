@@ -98,13 +98,12 @@ public class Exportar {
 
     public void crearXML(Document doc){
         doc.setXmlVersion("1.0");
-        long id = 1000;
         LocalDate ld = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MM yyyy");
         String dateString = ld.format(dateTimeFormatter);
         String dateStrinUsr = fechaCreacion.format(dateTimeFormatter);
 
-        crearElemento("id", Long.toString(id), doc, doc.getDocumentElement());
+        crearElemento("id", Long.toString(getIdEntrenador()), doc, doc.getDocumentElement());
         crearElemento("fechaexp", dateString, doc, doc.getDocumentElement());
 
         Element elementEntrenador = doc.createElement("entrenador");

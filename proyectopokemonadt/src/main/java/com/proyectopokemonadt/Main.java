@@ -29,7 +29,6 @@ public class Main {
 
         if (eleccion == 1) {
             Registro.registroData();
-            menu();
             
         }
 
@@ -90,11 +89,11 @@ public class Main {
                         String nombreAT = sc.next();
                         System.out.print("¿Cual es la contraseña del administrador del torneo?: ");
                         String passAT = sc.next();
-                        System.out.print("¿Cual es la ncionalidad  del administrador del torneo?: ");
+                        System.out.print("¿Cual es la nacionalidad  del administrador del torneo?: ");
 
                         ShowNations.show();
                         String nacionalidadAT = sc.next();
-                        Registro.registroData();
+                        Registro.registroDataAT(nombreAT, passAT, "AT");
                         Usuario adminTorneos = new Usuario(nombreAT, passAT, nacionalidadAT, idGenerator.generador(), "AT");
                         torneos.add(torneo);
                         booleanTorVal = false;

@@ -34,10 +34,12 @@ public class Registro {
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
+            
         }
-        }
+        sc.close();
+    }
+
     public static void registroDataAT(String nombreAT, String passAT, String rol) {
-        Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
         Scanner sc = new Scanner(System.in);
         boolean vb = false;
         while (!vb) {
@@ -48,10 +50,10 @@ public class Registro {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
         }
+        sc.close();
     }
 
     public static boolean creadorUsuario (String nombre, String contraseña, String tipoUsuario, long id){
-        int idInt = (int)id;
         if (usuarioExistente(nombre, contraseña)){
 
         } else {
@@ -65,7 +67,7 @@ public class Registro {
                 bf.write(" ");
                 bf.write(tipoUsuario);
                 bf.write(" ");
-                bf.write(idInt);
+                bf.write(Long.toString(id));
                 bf.newLine();
                 bf.close();
                 return true;
@@ -94,8 +96,6 @@ public class Registro {
                         br.close();
                         return true;   
                     }
-
-                    
                 }
             }
             
