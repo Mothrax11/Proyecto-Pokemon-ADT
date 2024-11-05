@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import com.proyectopokemonadt.clasesBasicas.Torneo;
-import com.proyectopokemonadt.complementarias.ShowNations;
 
 public class Registro {
 
@@ -46,6 +45,7 @@ public class Registro {
             if (creadorUsuario(nombreAT, passAT, rol, idGenerator.generador())) {
                 System.out.println("Se ha registrado correctamente con el usuario " + nombreAT);
                 vb = true;
+                
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
