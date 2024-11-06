@@ -83,7 +83,7 @@ public class Main {
 
                         System.out.print("Cuantos puntos se llevara el ganador: ");
                         float puntosVictoria = sc.nextInt();
-                        System.out.print("El torneo " + nombreTorneo + "ha sido creado con éxito");
+                        System.out.println("El torneo " + nombreTorneo + "ha sido creado con éxito");
                         Torneo torneo = new Torneo(nombreTorneo, codRegion, puntosVictoria);
                         System.out.print("¿Cual es el nombre del administrador del torneo?: ");
                         String nombreAT = sc.next();
@@ -107,7 +107,6 @@ public class Main {
                         "ENT")) {
                     Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad, idGenerator.generador());
                     activeUser.añadirTorneo(torneoDefault);
-                    Menus.mostrarMenuEntrenador();
                     int choice = sc.nextInt();
                     if (choice == 1) {
                         Exportar ex = new Exportar(activeUser);
