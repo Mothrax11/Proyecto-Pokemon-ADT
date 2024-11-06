@@ -5,59 +5,127 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
-import com.proyectopokemonadt.clasesBasicas.Torneo;
 
+import com.proyectopokemonadt.complementarias.ShowNations;
+
+/**
+ * Clase que gestiona el registro de usuarios en el sistema, incluyendo
+ * la creación de nuevos entrenadores y administradores de torneo.
+ * Proporciona métodos para registrar, validar y almacenar datos de usuarios.
+ * 
+ * @author raullg97
+ */
 public class Registro {
 
-    private static boolean registerOK = false;
-    private static ArrayList<Torneo> torneos = new ArrayList<>();
+    private static boolean registerOK = false; // Indica si el registro se realizó correctamente
+
+    /**
+     * Método para registrar un nuevo usuario con el rol de entrenador (ENT).
+     * Solicita datos al usuario como nombre y contraseña, y llama a
+     * creadorUsuario() para completar el registro.
+     * Solo se registrarán usuarios con rol "ENT".
+     */
     public static void registroData() {
-        Usuario admin = new Usuario("admingeneral", "Passw0rd", "ES", 1, "AG");
         Scanner sc = new Scanner(System.in);
         boolean vb = false;
         while (!vb) {
-
             System.out.println("¿Cuál es tu nombre?");
             String nombre = sc.next();
 
             System.out.println("¿Cuál es tu contraseña?");
             String contraseña = sc.next();
 
-            String rol = "ENT";
+            System.out.println("¿Cuál es tu nacionalidad?");
+            ShowNations.show();
+            String nac = sc.next();
+            System.out.println("¿Desea continuar con los siguientes datos? S/N");
+            System.out.println("Usuario: " + nombre);
+            System.out.println("Contraseña: " + contraseña);
+            System.out.println("Nacionalidad: " + nac);
+            String respuesta = sc.next().toUpperCase();
+            while (respuesta.equals("N")) {
 
-            if (creadorUsuario(nombre, contraseña, rol, idGenerator.generador())) {
-                System.out.println("Se ha registrado correctamente con el usuario " + nombre);
+                System.out.print("Usuario: ");
+                nombre = sc.next();
+                System.out.print("Contraseña: ");
+                contraseña = sc.next();
+                System.out.println("Nacionalidad: ");
+                nac = sc.next();
+                System.out.println("¿Desea continuar con los siguientes datos? S/N");
+                respuesta = sc.next().toUpperCase();
+            }
+            String rol = "ENT";
+            if (creadorUsuario(nombre, contraseña, rol, idGenerator.generador(), nac)) {
+
+                System.out.println("Se ha registrado correctamente! Sus datos de registro: ");
+                System.out.println("Usuario: " + nombre);
+                System.out.println("Contraseña: " + contraseña);
+                System.out.println("Nacionalidad: " + nac);
                 vb = true;
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
-            
         }
         sc.close();
     }
 
-    public static void registroDataAT(String nombreAT, String passAT, String rol) {
+    /**
+     * Método similar a registroData(), pero se utiliza exclusivamente para
+     * crear administradores de torneo (AT). Se llama cuando se crea un torneo
+     * y asigna automáticamente el rol de "AT" al usuario.
+     *
+     * @param nombreAT Nombre del administrador de torneo.
+     * @param passAT   Contraseña del administrador de torneo.
+     * @param rol      Rol que se asignará, que será "AT" por defecto.
+     */
+    public static void registroDataAT(String nombreAT, String passAT, String rol, String nac) {
         Scanner sc = new Scanner(System.in);
         boolean vb = false;
         while (!vb) {
-            if (creadorUsuario(nombreAT, passAT, rol, idGenerator.generador())) {
+            System.out.println("¿Desea continuar con los siguientes datos? S/N");
+            String respuesta = sc.next().toUpperCase();
+            while (respuesta.equals("N")) {
+
+                System.out.print("Usuario: ");
+                nombreAT = sc.next();
+                System.out.print("Contraseña: ");
+                passAT = sc.next();
+                System.out.println("Nacionalidad: ");
+                nac = sc.next();
+                System.out.println("¿Desea continuar con los siguientes datos? S/N");
+                respuesta = sc.next().toUpperCase();
+            }
+
+            if (creadorUsuario(nombreAT, passAT, rol, idGenerator.generador(), nac)) {
                 System.out.println("Se ha registrado correctamente con el usuario " + nombreAT);
                 vb = true;
-                
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
+            sc.close();
         }
-        sc.close();
     }
 
-    public static boolean creadorUsuario (String nombre, String contraseña, String tipoUsuario, long id){
-        if (usuarioExistente(nombre, contraseña)){
-
+    /**
+     * Método que escribe los datos del usuario en un archivo llamado
+     * "credenciales.txt".
+     * Cada línea en el archivo sigue el formato "Nombre Contraseña Rol Id",
+     * lo que facilita la gestión de credenciales en el sistema.
+     *
+     * @param nombre      Nombre del usuario a registrar.
+     * @param contraseña  Contraseña del usuario.
+     * @param tipoUsuario Rol del usuario (como "ENT" o "AT").
+     * @param id          ID único del usuario.
+     * @return Devuelve true si el usuario fue registrado exitosamente.
+     */
+    public static boolean creadorUsuario(String nombre, String contraseña, String tipoUsuario, long id, String nac) {
+        if (usuarioExistente(nombre, contraseña)) {
+            // Usuario ya existe, no se crea uno nuevo
         } else {
-            File usrs = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "credenciales.txt");
+            File usrs = new File(
+                    "proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios",
+                    "credenciales.txt");
             try {
                 FileWriter fw = new FileWriter(usrs, true);
                 BufferedWriter bf = new BufferedWriter(fw);
@@ -71,34 +139,45 @@ public class Registro {
                 bf.newLine();
                 bf.close();
                 return true;
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
         return false;
     }
 
-    public static boolean usuarioExistente(String nombre, String contraseña){
+    /**
+     * Método que verifica si un usuario con un nombre y contraseña específicos ya
+     * existe.
+     * Lee el archivo "credenciales.txt" y compara las credenciales introducidas
+     * con las existentes en el archivo. Si encuentra coincidencia, devuelve true.
+     *
+     * @param nombre     Nombre del usuario a verificar.
+     * @param contraseña Contraseña del usuario a verificar.
+     * @return Devuelve true si el usuario existe, de lo contrario, false.
+     */
+    public static boolean usuarioExistente(String nombre, String contraseña) {
         String buscar;
-        File rd = new File ("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios", "credenciales.txt");
+        File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios",
+                "credenciales.txt");
 
         try {
             FileReader fr = new FileReader(rd);
             BufferedReader br = new BufferedReader(fr);
 
-            if (rd.length() == 0){
+            if (rd.length() == 0) {
                 br.close();
                 return false;
             } else {
-                while ((buscar = br.readLine()) != null){
-                    String [] palabrasLinea = buscar.split(" ");
-                    if(palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(contraseña)){
+                while ((buscar = br.readLine()) != null) {
+                    String[] palabrasLinea = buscar.split(" ");
+                    if (palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(contraseña)) {
                         br.close();
-                        return true;   
+                        return true;
                     }
                 }
             }
-            
+
             br.close();
             return false;
 
@@ -108,7 +187,12 @@ public class Registro {
         return false;
     }
 
-    public static boolean regOK(){
+    /**
+     * Método para verificar el estado del registro.
+     * 
+     * @return Devuelve true si el registro fue exitoso.
+     */
+    public static boolean regOK() {
         return registerOK;
     }
 

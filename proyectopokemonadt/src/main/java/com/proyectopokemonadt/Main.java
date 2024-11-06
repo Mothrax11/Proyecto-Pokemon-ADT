@@ -9,6 +9,7 @@ import com.proyectopokemonadt.autenticacion.Registro;
 import com.proyectopokemonadt.autenticacion.Usuario;
 import com.proyectopokemonadt.clasesBasicas.Entrenador;
 import com.proyectopokemonadt.clasesBasicas.Torneo;
+import com.proyectopokemonadt.complementarias.Exportar;
 import com.proyectopokemonadt.complementarias.Menus;
 import com.proyectopokemonadt.complementarias.ShowNations;
 
@@ -20,7 +21,6 @@ public class Main {
 
     public static void menu(){
         ArrayList<Torneo> torneos = new ArrayList<>();
-        Usuario adminTorneosDefault = new Usuario("admintorneos", "123", "ES", 2, "AT");
         Torneo torneoDefault = new Torneo("Primer Torneo Default", 'A', 0l);
         torneos.add(torneoDefault);
         Scanner sc = new Scanner(System.in);
@@ -93,8 +93,9 @@ public class Main {
 
                         ShowNations.show();
                         String nacionalidadAT = sc.next();
-                        Registro.registroDataAT(nombreAT, passAT, "AT");
-                        Usuario adminTorneos = new Usuario(nombreAT, passAT, nacionalidadAT, idGenerator.generador(), "AT");
+                        Registro.registroDataAT(nombreAT, passAT, "AT",  nacionalidadAT);
+
+                        new Usuario(nombreAT, passAT, nacionalidadAT, idGenerator.generador(), "AT");
                         torneos.add(torneo);
                         booleanTorVal = false;
                     }
