@@ -1,5 +1,3 @@
 admingeneral Passw0rd AG 1
 adminTorneos Passw0rd AT
 mothrax 123 ENT 1000
-Y Y ENT 1010
-f f ENT 1011

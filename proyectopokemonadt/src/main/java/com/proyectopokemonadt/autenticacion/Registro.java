@@ -39,6 +39,11 @@ public class Registro {
             System.out.println("¿Cuál es tu nacionalidad?");
             ShowNations.show();
             String nac = sc.next();
+            while (!existeNacionalidad(nac)) {
+                System.out.println("Eliga una nacionalidad de la lista");
+                ShowNations.show();
+                nac = sc.next();
+            }
             System.out.println("¿Desea continuar con los siguientes datos? S/N");
             System.out.println("Usuario: " + nombre);
             System.out.println("Contraseña: " + contraseña);
@@ -52,6 +57,11 @@ public class Registro {
                 contraseña = sc.next();
                 System.out.println("Nacionalidad: ");
                 nac = sc.next();
+                while (!existeNacionalidad(nac)) {
+                    System.out.println("Eliga una nacionalidad de la lista");
+                    ShowNations.show();
+                    nac = sc.next();
+                }
                 System.out.println("¿Desea continuar con los siguientes datos? S/N");
                 respuesta = sc.next().toUpperCase();
             }
@@ -93,6 +103,11 @@ public class Registro {
                 passAT = sc.next();
                 System.out.println("Nacionalidad: ");
                 nac = sc.next();
+                while (!existeNacionalidad(nac)) {
+                    System.out.println("Eliga una nacionalidad de la lista");
+                    ShowNations.show();
+                    nac = sc.next();
+                }
                 System.out.println("¿Desea continuar con los siguientes datos? S/N");
                 respuesta = sc.next().toUpperCase();
             }
@@ -106,6 +121,14 @@ public class Registro {
             sc.close();
         }
     }
+            
+    public static boolean existeNacionalidad(String nac) {
+        if(ShowNations.listaPaises.contains(nac)){
+            return true;
+        }  
+        return false;
+    }
+    
 
     /**
      * Método que escribe los datos del usuario en un archivo llamado

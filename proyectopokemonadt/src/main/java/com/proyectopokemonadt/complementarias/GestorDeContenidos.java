@@ -9,7 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * {@link #characters(char[], int, int)}
  * para procesar los caracteres del archivo XML mientras se analiza su
  * contenido.
- * En este caso, los caracteres leídos se agregan a la lista de países y se
+ * Los caracteres leídos se agregan a la lista de países y se
  * imprimen en consola.
  * 
  * @author raullg97
