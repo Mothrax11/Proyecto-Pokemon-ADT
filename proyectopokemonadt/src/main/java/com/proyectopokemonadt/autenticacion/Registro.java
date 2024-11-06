@@ -118,9 +118,11 @@ public class Registro {
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
-            sc.close();
+            
         }
+        sc.close();
     }
+    
             
     public static boolean existeNacionalidad(String nac) {
         if(ShowNations.listaPaises.contains(nac)){
@@ -144,7 +146,7 @@ public class Registro {
      */
     public static boolean creadorUsuario(String nombre, String contraseña, String tipoUsuario, long id, String nac) {
         if (usuarioExistente(nombre, contraseña)) {
-            // Usuario ya existe, no se crea uno nuevo
+            
         } else {
             File usrs = new File(
                     "proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios",

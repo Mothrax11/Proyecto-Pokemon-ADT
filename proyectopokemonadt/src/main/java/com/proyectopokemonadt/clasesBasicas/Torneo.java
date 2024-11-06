@@ -1,5 +1,6 @@
 package com.proyectopokemonadt.clasesBasicas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * 
  * @author raullg97
  */
-public class Torneo {
+public class Torneo implements Serializable {
     private int id; // ID único del torneo
     private String nombre; // Nombre del torneo
     private char codRegion; // Código de la región a la que pertenece el torneo
