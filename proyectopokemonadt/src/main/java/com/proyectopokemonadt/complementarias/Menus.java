@@ -67,6 +67,9 @@ public class Menus {
         // Muestra las opciones del menú para el entrenador
         System.out.println("Bienvenido Entrenador, ¿que desea hacer?");
         System.out.println("1 -> Exportar mi carnet");
+        System.out.println("2 -> Ver torneos activos");
+        System.out.println("3 -> Volver al menu principal");
+        System.out.println("4 -> Salir");
     }
 
     /**

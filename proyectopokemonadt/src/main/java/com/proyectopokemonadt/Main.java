@@ -113,6 +113,25 @@ public class Main {
                     if (choice == 1) {
                         Exportar ex = new Exportar(activeUser);
                         ex.ejecutar();
+                    } else if (choice == 2) {
+                        System.out.println(
+                                "Escriba el numero del torneo en el que se quiere inscribir o escriba '-1' para salir: ");
+                        int numTorneo = 1;
+                        for (int n = 0; n < torneos.size(); n++) {
+                            System.out.println(numTorneo + " - " + torneos.get(n).getNombre());
+                            numTorneo++;
+                        }
+                        int eleccionTorneo = sc.nextInt();
+
+                        if (eleccionTorneo == -1) {
+                            Menus.menuPrincipal();
+                        } else {
+                            torneos.get(eleccionTorneo - 1).inscribir(activeUser);
+                            System.out.println("El usuario " + activeUser.getNombre()
+                                    + " se ha inscrito correctamente en el torneo "
+                                    + torneos.get(eleccionTorneo - 1).getNombre());
+                        }
+
                     }
                 }
             }
@@ -134,8 +153,7 @@ public class Main {
                 } else if (nombre.equals("admintorneos") && contraseña.equals("Passw0rd")) {
                     Menus.mostrarMenuAdministradorTorneos();
                 } else {
-                    if (Login.getInstance().comprobarUsuario(nombre, contraseña,
-                            idGenerator.generador(), "ENT")) {
+                    if (Login.getInstance().comprobarUsuario(nombre, contraseña, idGenerator.generador(), "ENT")) {
 
                         Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad,
                                 idGenerator.generador());
