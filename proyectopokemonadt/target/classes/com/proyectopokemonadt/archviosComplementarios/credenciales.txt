@@ -1,3 +1,5 @@
-admingeneral Passw0rd AG 1000
-adminTORNEOS Passw0rd AT 1001
-raul 123 ENT 1002
+admingeneral Passw0rd AG 1
+admintorneos Passw0rd AT 2
+mothrax 123 ENT 1000
+
+
