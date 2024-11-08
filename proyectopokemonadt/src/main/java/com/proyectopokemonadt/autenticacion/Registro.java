@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import com.proyectopokemonadt.clasesBasicas.Entrenador;
 import com.proyectopokemonadt.complementarias.ShowNations;
 
 /**
@@ -26,59 +27,18 @@ public class Registro {
      * creadorUsuario() para completar el registro.
      * Solo se registrarán usuarios con rol "ENT".
      */
-    public static void registroData() {
-        Scanner sc = new Scanner(System.in);
-        boolean vb = false;
-        while (!vb) {
-            System.out.println("¿Cuál es tu nombre?");
-            String nombre = sc.next();
-
-            System.out.println("¿Cuál es tu contraseña?");
-            String contraseña = sc.next();
-
-            System.out.println("¿Cuál es tu nacionalidad?");
-            ShowNations.show();
-            String nac = sc.next();
-            while (!existeNacionalidad(nac)) {
-                System.out.println("Eliga una nacionalidad de la lista");
-                ShowNations.show();
-                nac = sc.next();
-            }
-            System.out.println("¿Desea continuar con los siguientes datos? S/N");
-            System.out.println("Usuario: " + nombre);
-            System.out.println("Contraseña: " + contraseña);
-            System.out.println("Nacionalidad: " + nac);
-            String respuesta = sc.next().toUpperCase();
-            while (respuesta.equals("N")) {
-
-                System.out.print("Usuario: ");
-                nombre = sc.next();
-                System.out.print("Contraseña: ");
-                contraseña = sc.next();
-                System.out.println("Nacionalidad: ");
-                nac = sc.next();
-                while (!existeNacionalidad(nac)) {
-                    System.out.println("Eliga una nacionalidad de la lista");
-                    ShowNations.show();
-                    nac = sc.next();
-                }
-                System.out.println("¿Desea continuar con los siguientes datos? S/N");
-                respuesta = sc.next().toUpperCase();
-            }
+    public static void registroData(Entrenador temp) {
             String rol = "ENT";
-            if (creadorUsuario(nombre, contraseña, rol, idGenerator.generador(), nac)) {
-
+            if (creadorUsuario(temp.getNombre(), temp.getContraseña(), rol, idGenerator.generador(),temp.getNacionalidad())) {
                 System.out.println("Se ha registrado correctamente! Sus datos de registro: ");
-                System.out.println("Usuario: " + nombre);
-                System.out.println("Contraseña: " + contraseña);
-                System.out.println("Nacionalidad: " + nac);
-                vb = true;
+                System.out.println("Usuario: " + temp.getNombre());
+                System.out.println("Contraseña: " + temp.getContraseña());
+                System.out.println("Nacionalidad: " + temp.getNacionalidad());
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
         }
-        sc.close();
-    }
+    
 
     /**
      * Método similar a registroData(), pero se utiliza exclusivamente para
@@ -103,7 +63,7 @@ public class Registro {
                 passAT = sc.next();
                 System.out.println("Nacionalidad: ");
                 nac = sc.next();
-                while (!existeNacionalidad(nac)) {
+                while (!Registro.existeNacionalidad(nac)) {
                     System.out.println("Eliga una nacionalidad de la lista");
                     ShowNations.show();
                     nac = sc.next();
@@ -118,7 +78,7 @@ public class Registro {
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
             }
-            
+  
         }
         sc.close();
     }

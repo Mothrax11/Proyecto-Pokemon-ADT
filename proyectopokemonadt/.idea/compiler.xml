@@ -9,8 +9,5 @@
         <module name="proyectopokemonadt" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="proyectopokemonadt" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
