@@ -44,6 +44,10 @@ public class Entrenador implements Serializable {
         this.carnet = new Carnet(id, fechaCreacion);
     }
 
+    public String getContraseña() {
+        return contraseña;
+    }
+
     /**
      * Añade un torneo a la lista de torneos en los que ha participado el
      * entrenador.

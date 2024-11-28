@@ -102,7 +102,7 @@ public class Login {
                     if (palabrasLinea[2].equals("AT")) {
                         Menus.mostrarMenuAdministradorTorneos();
                     } else if(palabrasLinea[2].equals("ENT")){
-                        Menus.mostrarMenuEntrenador();
+                        
                     }
                     writeLog(nombre);
                     br.close();
