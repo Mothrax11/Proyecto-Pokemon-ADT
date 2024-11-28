@@ -1,7 +1,6 @@
-package com.proyectopokemonadt.clasesBasicas;
+package com.proyectopokemonadt.ENTIDADES;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Clase que representa un torneo en el sistema. Un torneo tiene un nombre,
@@ -15,8 +14,6 @@ public class Torneo implements Serializable {
     private String nombre; // Nombre del torneo
     private char codRegion; // Código de la región a la que pertenece el torneo
     private float puntosVictoria; // Puntos asignados por cada victoria
-    private long idResponsable; // ID del entrenador responsable del torneo
-    private ArrayList<Entrenador> participantes = new ArrayList<>(); // Lista de entrenadores participantes
 
     /**
      * Constructor que inicializa el nombre, el código de región y los puntos de
@@ -31,16 +28,6 @@ public class Torneo implements Serializable {
         this.nombre = nombre;
         this.codRegion = codRegion;
         this.puntosVictoria = puntosVictoria;
-    }
-
-    /**
-     * Método para inscribir un entrenador en el torneo, agregándolo a la lista de
-     * participantes.
-     *
-     * @param entrenador Entrenador a inscribir.
-     */
-    public void inscribir(Entrenador entrenador) {
-        participantes.add(entrenador);
     }
 
     /**
@@ -62,33 +49,6 @@ public class Torneo implements Serializable {
     }
 
     /**
-     * Establece el ID del responsable del torneo.
-     *
-     * @param idResponsable ID del responsable.
-     */
-    public void setIdResponsable(long idResponsable) {
-        this.idResponsable = idResponsable;
-    }
-
-    /**
-     * Devuelve la lista de entrenadores participantes en el torneo.
-     *
-     * @return Lista de participantes.
-     */
-    public ArrayList<Entrenador> getParticipantes() {
-        return participantes;
-    }
-
-    /**
-     * Establece la lista de entrenadores participantes.
-     *
-     * @param participantes Lista de entrenadores a inscribir en el torneo.
-     */
-    public void setParticipantes(ArrayList<Entrenador> participantes) {
-        this.participantes = participantes;
-    }
-
-    /**
      * Devuelve el nombre del torneo.
      *
      * @return Nombre del torneo.
@@ -104,15 +64,6 @@ public class Torneo implements Serializable {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    /**
-     * Devuelve el ID del responsable del torneo.
-     *
-     * @return ID del responsable.
-     */
-    public long getIdResponsable() {
-        return idResponsable;
     }
 
     /**
