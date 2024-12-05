@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-import com.proyectopokemonadt.clasesBasicas.Entrenador;
+import com.proyectopokemonadt.ENTIDADES.Entrenador;
 import com.proyectopokemonadt.complementarias.ShowNations;
 
 /**

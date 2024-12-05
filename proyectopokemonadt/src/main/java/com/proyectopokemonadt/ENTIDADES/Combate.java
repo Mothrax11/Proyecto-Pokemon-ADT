@@ -1,12 +1,13 @@
-package com.proyectopokemonadt.clasesBasicas;
+package com.proyectopokemonadt.ENTIDADES;
 
 import java.time.LocalDate;
 
 public class Combate {
     private LocalDate fecha;
-    private long id;  
+    private int id;
+    private int idTorneo;
     
-    public Combate(long id, LocalDate fecha) {
+    public Combate(int id, LocalDate fecha) {
         this.id = id;
         this.fecha = fecha;
     }
@@ -19,12 +20,20 @@ public class Combate {
         this.fecha = fecha;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdTorneo() {
+        return idTorneo;
+    }
+
+    public void setIdTorneo(int idTorneo) {
+        this.idTorneo = idTorneo;
     }
 
     

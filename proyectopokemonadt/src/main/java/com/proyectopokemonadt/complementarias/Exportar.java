@@ -2,8 +2,9 @@ package com.proyectopokemonadt.complementarias;
 
 import org.w3c.dom.*;
 
-import com.proyectopokemonadt.clasesBasicas.Entrenador;
-import com.proyectopokemonadt.clasesBasicas.Torneo;
+import com.proyectopokemonadt.ENTIDADES.Entrenador;
+import com.proyectopokemonadt.ENTIDADES.Torneo;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
