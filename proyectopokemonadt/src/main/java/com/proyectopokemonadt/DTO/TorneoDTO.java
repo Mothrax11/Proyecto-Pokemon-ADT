@@ -20,7 +20,7 @@ public class TorneoDTO {
          * @param codRegion      Código de la región del torneo.
          * @param puntosVictoria Puntos otorgados por cada victoria en el torneo.
          */
-        public Torneo(String nombre, char codRegion, float puntosVictoria) {
+        public TorneoDTO(String nombre, char codRegion, float puntosVictoria) {
             this.nombre = nombre;
             this.codRegion = codRegion;
             this.puntosVictoria = puntosVictoria;
@@ -58,7 +58,7 @@ public class TorneoDTO {
          *
          * @return Lista de participantes.
          */
-        public ArrayList<Entrenador> getParticipantes() {
+        public ArrayList<EntrenadorDTO> getParticipantes() {
             return participantes;
         }
     
@@ -67,7 +67,7 @@ public class TorneoDTO {
          *
          * @param participantes Lista de entrenadores a inscribir en el torneo.
          */
-        public void setParticipantes(ArrayList<Entrenador> participantes) {
+        public void setParticipantes(ArrayList<EntrenadorDTO> participantes) {
             this.participantes = participantes;
         }
     

@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import com.proyectopokemonadt.clasesBasicas.Torneo;
+import com.proyectopokemonadt.ENTIDADES.Torneo;
 
 public class ArchivadorTorneos {
     public static void Archivador (Torneo torneo){

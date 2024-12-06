@@ -1,4 +1,4 @@
-package com.proyectopokemonadt.clasesBasicas;
+package com.proyectopokemonadt.ENTIDADES;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
  * @author raullg97
  */
 public class Carnet implements Serializable {
-    private long idEntrenador; // ID único del entrenador
+    private int idEntrenador; // ID único del entrenador
     private LocalDate fechaExpedicion; // Fecha en la que se expidió el carnet
     private float puntos; // Puntos acumulados por el entrenador
     private int numVictorias; // Número de victorias del entrenador
@@ -30,11 +30,15 @@ public class Carnet implements Serializable {
      * @param puntos          Puntos acumulados del entrenador.
      * @param numVictorias    Número de victorias del entrenador.
      */
-    public Carnet(long idEntrenador, LocalDate fechaExpedicion, float puntos, int numVictorias) {
+    public Carnet(int idEntrenador, LocalDate fechaExpedicion, float puntos, int numVictorias) {
         this.idEntrenador = idEntrenador;
         this.fechaExpedicion = fechaExpedicion;
         this.puntos = puntos;
         this.numVictorias = numVictorias;
+    }
+
+    public Carnet(){
+        
     }
 
     /**
@@ -44,7 +48,7 @@ public class Carnet implements Serializable {
      * @param idEntrenador    ID del entrenador al que pertenece el carnet.
      * @param fechaExpedicion Fecha en la que se expide el carnet.
      */
-    public Carnet(Long idEntrenador, LocalDate fechaExpedicion) {
+    public Carnet(int idEntrenador, LocalDate fechaExpedicion) {
         this.idEntrenador = idEntrenador;
         this.fechaExpedicion = fechaExpedicion;
     }
@@ -54,7 +58,7 @@ public class Carnet implements Serializable {
      *
      * @return ID del entrenador.
      */
-    public long getIdEntrenador() {
+    public int getIdEntrenador() {
         return idEntrenador;
     }
 
@@ -63,7 +67,7 @@ public class Carnet implements Serializable {
      *
      * @param idEntrenador Nuevo ID del entrenador.
      */
-    public void setIdEntrenador(long idEntrenador) {
+    public void setIdEntrenador(int idEntrenador) {
         this.idEntrenador = idEntrenador;
     }
 

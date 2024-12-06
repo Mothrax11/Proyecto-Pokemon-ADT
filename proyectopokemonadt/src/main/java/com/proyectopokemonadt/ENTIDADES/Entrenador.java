@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author raullg97
  */
 public class Entrenador implements Serializable {
-    private long id; // ID único del entrenador
+    private int id; // ID único del entrenador
     private String nombre; // Nombre del entrenador
     private String nacionalidad; // Nacionalidad del entrenador
 
@@ -29,10 +29,14 @@ public class Entrenador implements Serializable {
      * @param nacionalidad Nacionalidad del entrenador.
      * @param id           ID único del entrenador.
      */
-    public Entrenador(String nombre, String nacionalidad, long id) {
+    public Entrenador(String nombre, String nacionalidad, int  id) {
         this.nombre = nombre;
         this.nacionalidad = nacionalidad;
         this.id = id;
+   }
+
+   public Entrenador(){
+    
    }
 
     /**
@@ -40,7 +44,7 @@ public class Entrenador implements Serializable {
      *
      * @return ID del entrenador.
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
    
@@ -49,7 +53,7 @@ public class Entrenador implements Serializable {
      *
      * @param id Nuevo ID del entrenador.
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

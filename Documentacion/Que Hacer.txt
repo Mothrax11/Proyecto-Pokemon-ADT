@@ -1,4 +1,4 @@
 Crear en la base de datos las tablas Combate, Entrenador, Torneo y Carnet.
-Entidad- base de datos
-DAO- consultas para base de datos para esa Entidad
-DTO - Con lo que trabajo en mi programa
+Entidad - base de datos
+DAO - consultas para base de datos para esa Entidad
+DTO - Con lo que trabajo en mi programa.

@@ -1,11 +1,11 @@
 package com.proyectopokemonadt.complementarias;
 
+import com.proyectopokemonadt.ENTIDADES.Entrenador;
+import com.proyectopokemonadt.ENTIDADES.Torneo;
 import com.proyectopokemonadt.autenticacion.Login;
 import com.proyectopokemonadt.autenticacion.Registro;
 import com.proyectopokemonadt.autenticacion.Usuario;
 import com.proyectopokemonadt.autenticacion.idGenerator;
-import com.proyectopokemonadt.clasesBasicas.Entrenador;
-import com.proyectopokemonadt.clasesBasicas.Torneo;
 
 import java.util.ArrayList;
 import java.util.Scanner;

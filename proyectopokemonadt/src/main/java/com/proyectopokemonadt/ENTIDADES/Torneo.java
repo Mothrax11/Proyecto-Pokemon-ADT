@@ -24,7 +24,8 @@ public class Torneo implements Serializable {
      * @param codRegion      Código de la región del torneo.
      * @param puntosVictoria Puntos otorgados por cada victoria en el torneo.
      */
-    public Torneo(String nombre, char codRegion, float puntosVictoria) {
+    public Torneo(int id, String nombre, char codRegion, float puntosVictoria) {
+        this.id = id;
         this.nombre = nombre;
         this.codRegion = codRegion;
         this.puntosVictoria = puntosVictoria;
@@ -35,7 +36,7 @@ public class Torneo implements Serializable {
      *
      * @return ID del torneo.
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
