@@ -29,7 +29,7 @@ public class idGenerator {
      * 
      * @return El próximo ID disponible. Si ocurre un error, devuelve -1.
      */
-    public static long generador() {
+    public static int generador() {
         int id;
 
         // Ruta del archivo id.txt

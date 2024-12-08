@@ -1,7 +1,5 @@
 package com.proyectopokemonadt.DTO;
 
-import java.util.ArrayList;
-
 public class TorneoDTO {
     
         private int id; // ID único del torneo
@@ -9,7 +7,6 @@ public class TorneoDTO {
         private char codRegion; // Código de la región a la que pertenece el torneo
         private float puntosVictoria; // Puntos asignados por cada victoria
         private long idResponsable; // ID del entrenador responsable del torneo
-        private ArrayList<EntrenadorDTO> participantes = new ArrayList<>(); // Lista de entrenadores participantes
     
         /**
          * Constructor que inicializa el nombre, el código de región y los puntos de
@@ -20,7 +17,8 @@ public class TorneoDTO {
          * @param codRegion      Código de la región del torneo.
          * @param puntosVictoria Puntos otorgados por cada victoria en el torneo.
          */
-        public TorneoDTO(String nombre, char codRegion, float puntosVictoria) {
+        public TorneoDTO(int id, String nombre, char codRegion, float puntosVictoria) {
+            this.id = id;
             this.nombre = nombre;
             this.codRegion = codRegion;
             this.puntosVictoria = puntosVictoria;
@@ -31,7 +29,7 @@ public class TorneoDTO {
          *
          * @return ID del torneo.
          */
-        public long getId() {
+        public int getId() {
             return id;
         }
     
@@ -51,24 +49,6 @@ public class TorneoDTO {
          */
         public void setIdResponsable(long idResponsable) {
             this.idResponsable = idResponsable;
-        }
-    
-        /**
-         * Devuelve la lista de entrenadores participantes en el torneo.
-         *
-         * @return Lista de participantes.
-         */
-        public ArrayList<EntrenadorDTO> getParticipantes() {
-            return participantes;
-        }
-    
-        /**
-         * Establece la lista de entrenadores participantes.
-         *
-         * @param participantes Lista de entrenadores a inscribir en el torneo.
-         */
-        public void setParticipantes(ArrayList<EntrenadorDTO> participantes) {
-            this.participantes = participantes;
         }
     
         /**
@@ -132,5 +112,5 @@ public class TorneoDTO {
          */
         public void setPuntosVictoria(float puntosVictoria) {
             this.puntosVictoria = puntosVictoria;
-        }
+        }  
     }

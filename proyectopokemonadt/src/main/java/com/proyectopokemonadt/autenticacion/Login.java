@@ -87,7 +87,7 @@ public class Login {
      * @return true si el usuario existe y la contraseña es correcta, false en caso
      *         contrario.
      */
-    public boolean comprobarUsuario(String nombre, String pass, long id, String rol) {
+    public int comprobarUsuario(String nombre, String pass) {
         String buscar;
         File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios",
                 "credenciales.txt");
@@ -95,25 +95,28 @@ public class Login {
         try {
             FileReader fr = new FileReader(rd);
             BufferedReader br = new BufferedReader(fr);
-
+            int idUser = 0;
             while ((buscar = br.readLine()) != null) {
                 String[] palabrasLinea = buscar.split(" ");
                 if (palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(pass)) {
                     if (palabrasLinea[2].equals("AT")) {
                         Menus.mostrarMenuAdministradorTorneos();
+                        idUser = Integer.parseInt(palabrasLinea[3]);
+                        return idUser;
                     } else if(palabrasLinea[2].equals("ENT")){
-                        
+                        idUser = Integer.parseInt(palabrasLinea[3]);
+                        return idUser;
                     }
                     writeLog(nombre);
                     br.close();
-                    return true;
                 }
             }
             br.close();
-            return false;
+            return idUser;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return 0;
         }
-        return false;
+        
     }
 }

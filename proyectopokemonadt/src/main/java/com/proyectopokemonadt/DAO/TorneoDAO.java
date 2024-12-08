@@ -1,6 +1,8 @@
 package com.proyectopokemonadt.DAO;
 
 import java.util.List;
+
+
 import com.proyectopokemonadt.ENTIDADES.Torneo;
 
 public interface TorneoDAO {
@@ -9,4 +11,5 @@ public interface TorneoDAO {
     public boolean actualizarTorneoPorId(int idTorneo, Torneo torneoEntidad);
     public Torneo obtenerTorneoPorId(int idTorneo);
     public List<Torneo> obtenerTodosLosTorneos();
+    public Torneo obtenerTorneoRegionNombre(String codRegion, String nombre);
 }

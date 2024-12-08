@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-import com.proyectopokemonadt.ENTIDADES.Entrenador;
+import com.proyectopokemonadt.complementarias.EntrenadorTemporal;
 import com.proyectopokemonadt.complementarias.ShowNations;
 
 /**
@@ -27,15 +27,18 @@ public class Registro {
      * creadorUsuario() para completar el registro.
      * Solo se registrarán usuarios con rol "ENT".
      */
-    public static void registroData(Entrenador temp) {
+    public static boolean registroData(EntrenadorTemporal temp) {
             String rol = "ENT";
-            if (creadorUsuario(temp.getNombre(), temp.getContraseña(), rol, idGenerator.generador(),temp.getNacionalidad())) {
+            if (creadorUsuario(temp.getNombre(), 
+                    temp.getContrasena(), rol,  temp.getNacionalidad(), idGenerator.generador())) {
                 System.out.println("Se ha registrado correctamente! Sus datos de registro: ");
                 System.out.println("Usuario: " + temp.getNombre());
-                System.out.println("Contraseña: " + temp.getContraseña());
+                System.out.println("Contraseña: " + temp.getContrasena());
                 System.out.println("Nacionalidad: " + temp.getNacionalidad());
+                return true;
             } else {
                 System.out.println("Ha ocurrido un error en el registro, intentelo de nuevo.");
+                return false;
             }
         }
     
@@ -72,7 +75,7 @@ public class Registro {
                 respuesta = sc.next().toUpperCase();
             }
 
-            if (creadorUsuario(nombreAT, passAT, rol, idGenerator.generador(), nac)) {
+            if (creadorUsuario(nombreAT, passAT, rol,  nac, idGenerator.generador())) {
                 System.out.println("Se ha registrado correctamente con el usuario " + nombreAT);
                 vb = true;
             } else {
@@ -104,7 +107,7 @@ public class Registro {
      * @param id          ID único del usuario.
      * @return Devuelve true si el usuario fue registrado exitosamente.
      */
-    public static boolean creadorUsuario(String nombre, String contraseña, String tipoUsuario, long id, String nac) {
+    public static boolean creadorUsuario(String nombre, String contraseña, String tipoUsuario, String nac, long id) {
         if (usuarioExistente(nombre, contraseña)) {
             
         } else {

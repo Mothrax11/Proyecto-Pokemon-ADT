@@ -9,7 +9,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.proyectopokemonadt.DTO.CombateDTO;
+import com.proyectopokemonadt.ENTIDADES.Combate;
 import com.proyectopokemonadt.ENTIDADES.Entrenador;
+import com.proyectopokemonadt.ENTIDADES.Torneo;
 
 public class EntrenadorDAOImplementacion implements EntrenadorDAO {
 
@@ -115,6 +118,50 @@ public class EntrenadorDAOImplementacion implements EntrenadorDAO {
         return entrenador;
     }
 
-    
-    
+    @Override
+    public List<Torneo> obtenerTorneosPorEntrenador(int idEntrenador) {
+    String sql = "SELECT torneosEntrenador.* FROM torneo torneosEntrenador JOIN combate combateEntrenador ON torneosEntrenador.id = combateEntrenador.idTorneo JOIN combateentrenadores ce ON combateEntrenador.id = ce.idCombate WHERE ce.idEntrenador1 = ? OR ce.idEntrenador2 = ?";
+    List<Torneo> torneos = new ArrayList<>();
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, idEntrenador);
+        statement.setInt(2, idEntrenador);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Torneo torneo = new Torneo();
+                torneo.setId(resultSet.getInt("id"));
+                torneo.setNombre(resultSet.getString("nombre"));
+                torneo.setCodRegion(resultSet.getString("codRegion").charAt(0));
+                torneo.setPuntosVictoria(resultSet.getFloat("puntosVictoria"));
+                torneos.add(torneo);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return torneos;
+    }
+
+    @Override
+    public List<Combate> obtenerCombatesPorEntrenador(int idEntrenador) {
+        String sql = "SELECT combatesEntrenador.* FROM combate combatesEntrenador JOIN combateentrenadores ce ON combatesEntrenador.id = ce.idCombate WHERE ce.idEntrenador1 = ? OR ce.idEntrenador2 = ?";
+        List<Combate> combates = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, idEntrenador);
+            statement.setInt(2, idEntrenador);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Combate combate = new Combate();
+                    combate.setId(resultSet.getInt("id"));
+                    combate.setFecha(resultSet.getDate("fecha").toLocalDate());
+                    combate.setIdTorneo(resultSet.getInt("idTorneo"));
+                    combates.add(combate);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return combates;
+    } 
 }

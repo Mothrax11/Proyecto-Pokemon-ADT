@@ -1,15 +1,25 @@
 package com.proyectopokemonadt.complementarias;
 
+import com.mysql.cj.log.Log;
+import com.proyectopokemonadt.DTO.EntrenadorDTO;
+import com.proyectopokemonadt.DTO.TorneoDTO;
+import com.proyectopokemonadt.ENTIDADES.Combate;
 import com.proyectopokemonadt.ENTIDADES.Entrenador;
 import com.proyectopokemonadt.ENTIDADES.Torneo;
+import com.proyectopokemonadt.SERVICES.EntrenadorServices;
+import com.proyectopokemonadt.SERVICES.TorneoServices;
 import com.proyectopokemonadt.autenticacion.Login;
 import com.proyectopokemonadt.autenticacion.Registro;
 import com.proyectopokemonadt.autenticacion.Usuario;
 import com.proyectopokemonadt.autenticacion.idGenerator;
 
+import java.lang.runtime.SwitchBootstraps;
+import java.security.CodeSigner;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import javax.sql.DataSource;
 import javax.naming.InitialContext;
 
 /**
@@ -21,184 +31,134 @@ import javax.naming.InitialContext;
  * @author raullg97
  */
 public class Menus {
-    static Entrenador temp = null;
-    /**
-     * Muestra el menú principal del sistema, donde el usuario puede elegir entre
-     * registrarse, iniciar sesión o iniciar sesión como invitado.
-     */
-    public static void menuPrincipal() {
-        System.out.print("\033[H\033[2J");
-        ArrayList<Torneo> torneos = new ArrayList<>();
-        Torneo torneoDefault = new Torneo("Primer Torneo Default", 'A', 0l);
-        torneos.add(torneoDefault);
-
-        System.out.println("Bienvenido Invitado al Pokemon Torunament 2025!");
-        System.out.println("¿Qué deseas hacer?");
-        System.out.println("1 -> Registrarme.");
-        System.out.println("2 -> Iniciar sesión.");
-        System.out.println("3 -> Cerrar");
-
-        Scanner sc = new Scanner(System.in);
-        int eleccion = sc.nextInt();
-
-        if(eleccion == 1){
-            registrar(torneos);
-
-        }
-
-        if (eleccion == 2) {
-            if (temp == null) {
-                System.out.println("Por favor, cree una cuenta antes de iniciar sesión");
-                registrar(torneos);
-            } else {
-                iniciarSesion(torneos, torneoDefault, temp.getNacionalidad());
-            }
-
-        }
-
-        if (eleccion == 3) {
+    private static DataSource dataSource = DBConnection.getMySQLDataSource();
+        static EntrenadorTemporal temp = null;
+        /**
+         * Muestra el menú principal del sistema, donde el usuario puede elegir entre
+         * registrarse, iniciar sesión o iniciar sesión como invitado.
+         */
+        public static void menuPrincipal() {
             System.out.print("\033[H\033[2J");
-            System.out.println("Hasta la próxima!");
-            System.exit(0);
-        }
-    }
-
-    public static void registrar(ArrayList<Torneo> torneos){
-        Scanner sc = new Scanner(System.in);
-        sc = new Scanner(System.in);
-        boolean vb = false;
-        while (!vb) {
-
-            System.out.println("¿Cuál es tu nombre?");
-            String nombre = sc.next();
-
-            System.out.println("¿Cuál es tu contraseña?");
-            String contraseña = sc.next();
-
-            System.out.println("¿Cuál es tu nacionalidad?");
-            ShowNations.show();
-            String nac = sc.next();
-
-            while (!Registro.existeNacionalidad(nac)) {
-                System.out.println("Eliga una nacionalidad de la lista");
-                ShowNations.show();
-                nac = sc.next();
+    
+            System.out.println("Bienvenido Invitado al Pokemon Torunament 2025!");
+            System.out.println("¿Qué deseas hacer?");
+            System.out.println("1 -> Registrarme.");
+            System.out.println("2 -> Iniciar sesión.");
+            System.out.println("3 -> Cerrar");
+    
+            Scanner sc = new Scanner(System.in);
+            int eleccion = sc.nextInt();
+    
+            if(eleccion == 1){
+                registrar();
+    
             }
-
-            System.out.println("¿Desea continuar con los siguientes datos? S/N");
-            System.out.println("Usuario: " + nombre);
-            System.out.println("Contraseña: " + contraseña);
-            System.out.println("Nacionalidad: " + nac);
-            String respuesta = sc.next().toUpperCase();
-
-            while (respuesta.equals("N")) {
-
-                System.out.print("Usuario: ");
-                nombre = sc.next();
-                System.out.print("Contraseña: ");
-                contraseña = sc.next();
-                System.out.println("Nacionalidad: ");
-                nac = sc.next();
-
+    
+            if (eleccion == 2) {
+               iniciarSesion();
+    
+            }
+    
+            if (eleccion == 3) {
+                System.out.print("\033[H\033[2J");
+                System.out.println("Hasta la próxima!");
+                System.exit(0);
+            }
+        }
+    
+        public static void registrar(){
+            Scanner sc = new Scanner(System.in);
+            boolean vb = false;
+            while (!vb) {
+    
+                System.out.println("¿Cuál es tu nombre?");
+                String nombre = sc.next();
+    
+                System.out.println("¿Cuál es tu contraseña?");
+                String contraseña = sc.next();
+    
+                System.out.println("¿Cuál es tu nacionalidad?");
+                ShowNations.show();
+                String nac = sc.next();
+    
                 while (!Registro.existeNacionalidad(nac)) {
                     System.out.println("Eliga una nacionalidad de la lista");
                     ShowNations.show();
                     nac = sc.next();
                 }
+    
                 System.out.println("¿Desea continuar con los siguientes datos? S/N");
-                respuesta = sc.next().toUpperCase();
-            }
-            vb = true;
-            temp = new Entrenador(nombre, respuesta, nac, idGenerator.generador());
-            Registro.registroData(temp);
-            mostrarMenuEntrenador(torneos);
+                System.out.println("Usuario: " + nombre);
+                System.out.println("Contraseña: " + contraseña);
+                System.out.println("Nacionalidad: " + nac);
+                String respuesta = sc.next().toUpperCase();
+    
+                while (respuesta.equals("N")) {
+    
+                    System.out.print("Usuario: ");
+                    nombre = sc.next();
+                    System.out.print("Contraseña: ");
+                    contraseña = sc.next();
+                    System.out.println("Nacionalidad: ");
+                    nac = sc.next();
+    
+                    while (!Registro.existeNacionalidad(nac)) {
+                        System.out.println("Eliga una nacionalidad de la lista");
+                        ShowNations.show();
+                        nac = sc.next();
+                    }
+                    System.out.println("¿Desea continuar con los siguientes datos? S/N");
+                    respuesta = sc.next().toUpperCase();
+                }
+                vb = true;
+                temp = new EntrenadorTemporal(idGenerator.generador(), nombre, contraseña, nac);
+                List<Combate> combatesEntrenador = new ArrayList<Combate>();
+                List<Torneo> combatesTorneo = new ArrayList<Torneo>();
+                int idParaEntrenador = idGenerator.generador();
+                EntrenadorDTO edto = new EntrenadorDTO(idParaEntrenador, nombre, nac, 0f, combatesTorneo, combatesEntrenador);
+                EntrenadorServices.getInstancia(dataSource).crearEntrenador(edto);
+               if ( Registro.creadorUsuario(nombre, contraseña, "ENT", nac, idParaEntrenador )){
+                    mostrarMenuEntrenador();
+               }
+                
         }
     }
 
-    public static void iniciarSesion(ArrayList<Torneo> torneos, Torneo torneoDefault, String nacionalidad){
+    public static void iniciarSesion(){
         Scanner sc = new Scanner(System.in);
-         System.out.println("¿Cuál es tu nombre?");
-            String nombre = sc.next();
-            System.out.println("¿Cuál es tu contraseña?");
-            String contraseña = sc.next();
+        String nombre;
+        String contraseña;
+        System.out.println("Ingrese su nombre de usuario:");
+        nombre = sc.next();
+        System.out.println("Ingrese su contraseña:");
+        contraseña = sc.next();
+        int idUsuario = Login.getInstance().comprobarUsuario(nombre, contraseña);
 
-            if (nombre.equals("admintorneos") && contraseña.equals("Passw0rd")) {
-                Menus.mostrarMenuAdministradorTorneos();
-            } else if (nombre.equals("admingeneral") && contraseña.equals("Passw0rd")) {
-                Menus.mostrarMenuAdminGeneral();
-                int choice = sc.nextInt();
-                boolean booleanTorVal = false;
-
-                if (choice == 1) {
-                    while (!booleanTorVal) {
-                        Scanner topSc = new Scanner(System.in);
-                        System.out.print("Nombre del torneo: ");
-                        String nombreTorneo = topSc.next();
-                        System.out.println("Cual es la region del torneo: ");
-                        System.out.println("1 -> AMERICAS | 2 -> EMEA | 3 -> CHINA | 4 -> PACIFICO");
-                        int region = topSc.nextInt();
-                        char codRegion = '*';
-                        switch (region) {
-                            case 1:
-                                codRegion = 'A';
-                                break;
-                            case 2:
-                                codRegion = 'E';
-                                break;
-
-                            case 3:
-                                codRegion = 'C';
-                                break;
-
-                            case 4:
-                                codRegion = 'P';
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        // Revisa que el nuevo torneo no tiene el nombre de alguno ya creado
-                        for (int i = 0; i < torneos.size(); i++) {
-                            if (torneos.get(i).getNombre().equals(nombreTorneo)
-                                    && (torneos.get(i).getCodRegion() == codRegion)) {
-                                System.out.println(
-                                        "Nombre del torneo con esa región en uso, escriba otro nombre o región.");
-                            } else {
-                                booleanTorVal = true;
-                            }
-                        }
-
-                        System.out.print("Cuantos puntos se llevara el ganador: ");
-                        float puntosVictoria = topSc.nextInt();
-                        System.out.println("El torneo " + nombreTorneo + " ha sido creado con éxito");
-                        Torneo torneo = new Torneo(nombreTorneo, codRegion, puntosVictoria);
-                        ArchivadorTorneos.Archivador(torneoDefault);
-                        System.out.print("¿Cual es el nombre del administrador del torneo?: ");
-                        String nombreAT = topSc.next();
-                        System.out.print("¿Cual es la contraseña del administrador del torneo?: ");
-                        String passAT = topSc.next();
-                        System.out.print("¿Cual es la nacionalidad  del administrador del torneo?: ");
-
-                        ShowNations.show();
-                        String nacionalidadAT = topSc.next();
-
-                        new Usuario(nombreAT, passAT, nacionalidadAT, idGenerator.generador(), "AT");
-                        Registro.registroDataAT(nombreAT, passAT, "AT", nacionalidadAT);
-                        torneos.add(torneo);
-                        booleanTorVal = true;
-                        topSc.close();
-                    }
-                }
-
+        if(nombre.equals("admingeneral") && contraseña.equals("Passw0rd")){
+            mostrarMenuAdminGeneral();
+        } else if (idUsuario != 0) {
+            if (EntrenadorServices.getInstancia(dataSource).obtenerEntrenadorPorId(idUsuario) != null) {
+                mostrarMenuEntrenador();
             } else {
-                if (Login.getInstance().comprobarUsuario(nombre, contraseña, idGenerator.generador(),
-                        "ENT")) {
-                    Entrenador activeUser = new Entrenador(nombre, contraseña, nacionalidad, idGenerator.generador());
-                    activeUser.añadirTorneo(torneoDefault);
-                    mostrarMenuEntrenador(torneos);
+                try {
+                    System.out.println("Ha habido un error al iniciar sesión, volviendo al menú principal");
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                menuPrincipal();
             }
+        } else {
+            try {
+                System.out.println("Ha habido un error al iniciar sesión, volviendo al menú principal");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            menuPrincipal();
+        }
+
+
     }
 
     /**
@@ -211,16 +171,108 @@ public class Menus {
         System.out.println("Bienvenido Administrador General, ¿que desea hacer?");
         System.out.println("1 -> Crear torneo.");
         System.out.println("2 -> Iniciar sesion.");
-        System.out.println("3 -> Cerrar sesion.");
+        System.out.println("3 -> Volver al menu principal.");
+        System.out.println("4 -> Salir.");
+        Scanner sc = new Scanner(System.in);
+        int eleccion = sc.nextInt();
 
+        switch (eleccion) {
+            case 1:
+                int idTorneo = idGenerator.generador();
+                boolean torneoAceptado = false;
+                while(torneoAceptado == false){
+                    System.out.println("Ingrese el nombre del torneo:");
+                    String nombre = sc.next();
+                    System.out.println("Escoja una region para el torneo:");
+                    System.out.println("1 - EMEA | 2 - AMERICAS | 3 - PACIFICO | 4 - CHINA");
+                    int region = sc.nextInt();
+                    char codRegion;
+                    switch (region) {
+                        case 1:
+                            codRegion = 'E';
+                            break;
+                    
+                        case 2:
+                            codRegion = 'A';
+                            break;
+                    
+                        case 3:
+                            codRegion = 'P';
+                            break;
+                    
+                        case 4:
+                            codRegion = 'C';
+                            break;
+                    
+                        default:
+                            codRegion = 'X';
+                            break;
+                    }
+                    float puntosVictoria;
+                    System.out.println("Cuantos puntos se llevará el ganador?:");
+                    puntosVictoria = sc.nextFloat();
 
+                    System.out.println("Quiere crear el torneo con los siguientes datos? S/N:");
+                    System.out.println("Nombre: " + nombre);
+                    System.out.println("Región del torneo: " + codRegion);
+                    System.out.println("Puntos por victoria: " + puntosVictoria);
+                    
+
+                    String respuesta = sc.next();
+
+                    if(respuesta.toUpperCase().equals("S")){
+                        if (TorneoServices.getInstancia(dataSource).comprobarTorneoExiste(String.valueOf(codRegion),
+                                nombre)) {
+                            System.out.println("El torneo ya existe, desea salir o cambiar los datos del torneo?");
+                            System.out.println("1 - Cambiar | 2 - Salir");
+                            int eleccion2 = sc.nextInt();
+                            switch (eleccion2) {
+                                case 1:
+                                    torneoAceptado = false;
+                                    break;
+                                case 2:
+                                    mostrarMenuAdminGeneral();
+                                    break;
+
+                                default:
+                                    break;
+                            }
+        
+                        } else {
+                            TorneoDTO torneoACrear = new TorneoDTO(idTorneo, nombre, codRegion, puntosVictoria);
+                            if (TorneoServices.getInstancia(dataSource).crearTorneo(torneoACrear)) { 
+                                try {
+                                    System.out.println("Torneo creado con exito.");
+                                    Thread.sleep(2000);
+                                    torneoAceptado = true;
+                                    mostrarMenuAdministradorTorneos();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                try {
+                                    System.out.println("Ha habido un error al iniciar sesión, volviendo al menú de administrador de torneos:");
+                                    Thread.sleep(2000);
+                                    mostrarMenuAdministradorTorneos();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } 
+                    }    
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
     /**
      * Muestra el menú para el entrenador.
      * El entrenador puede exportar su carnet.
      */
-    public static void mostrarMenuEntrenador(ArrayList<Torneo> torneos) {
+    public static void mostrarMenuEntrenador() {
         Scanner sc = new Scanner(System.in);
         // Limpia la consola (dependiendo de la terminal)
         System.out.println("---------------------------------------------------------------");
@@ -232,41 +284,22 @@ public class Menus {
         System.out.println("---------------------------------------------------------------");
         int eleccion = sc.nextInt();
 
-        if(eleccion == 1){
-            Exportar ex = new Exportar(temp);
-            ex.ejecutar();
-            System.out.println("Carnet exportado con éxito!");
-            mostrarMenuEntrenador(torneos);
+       if(eleccion == 1){
+
+       }
+
+       if(eleccion == 2){
+            List<Torneo> torneos = TorneoServices.getInstancia(dataSource).obtenerTodosLosTorneos();
+            TorneoServices.getInstancia(dataSource).obtenerTodosLosTorneosToString();
         }
 
-        if (eleccion == 2){
-            System.out.println(
-                    "Escriba el numero del torneo en el que se quiere inscribir o escriba '-1' para salir: ");
-            int numTorneo = 1;
-            for (int n = 0; n < torneos.size(); n++) {
-                System.out.println(numTorneo + " - " + torneos.get(n).getNombre());
-                numTorneo++;
-            }
-            int eleccionTorneo = sc.nextInt();
+       if(eleccion == 3){
+        menuPrincipal();
+       }
 
-            if (eleccionTorneo == -1) {
-                Menus.menuPrincipal();
-            } else {
-                torneos.get(eleccionTorneo - 1).inscribir(temp);
-                System.out.println("El usuario " + temp.getNombre()
-                        + " se ha inscrito correctamente en el torneo "
-                        + torneos.get(eleccionTorneo - 1).getNombre());
-            }
-            mostrarMenuEntrenador(torneos);
-        }
-
-        if (eleccion == 3){
-            Menus.menuPrincipal();
-        }
-
-        if(eleccion == 4){
-            cerrarPrograma();
-        }
+       if(eleccion == 4){
+           cerrarPrograma();
+       }
         
     }
 
@@ -277,8 +310,32 @@ public class Menus {
     public static void mostrarMenuAdministradorTorneos() {
         System.out.println("---------------------------------------------------------------");
         System.out.println("Bienvenido Administrador de Torneos, ¿que desea hacer?");
-        System.out.println("1 -> Salir.");
-        System.out.println("---------------------------------------------------------------");
+        System.out.println("1 -> Mostrar mi torneo por pantalla.");
+        System.out.println("2 -> Exportar mi torneo en XML.");
+        System.out.println("3 -> Volver al menu principal.");
+        System.out.println("4 -> Salir.");
+        Scanner sc = new Scanner(System.in);
+        int eleccion = sc.nextInt();
+        switch (eleccion) {
+            case 1:
+                
+                break;
+        
+            case 2:
+                
+                break;
+        
+            case 3:
+                menuPrincipal();
+                break;
+        
+            case 4:
+                cerrarPrograma();
+                break;
+        
+            default:
+                break;
+        }
     }
 
     public static void cerrarPrograma(){

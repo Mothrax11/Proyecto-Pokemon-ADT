@@ -10,6 +10,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.proyectopokemonadt.ENTIDADES.Torneo;
+import com.proyectopokemonadt.complementarias.DBConnection;
 
 public class TorneoDAOImplementacion implements TorneoDAO {
 
@@ -17,13 +18,13 @@ public class TorneoDAOImplementacion implements TorneoDAO {
     private static TorneoDAOImplementacion instancia;
     private DataSource dataSource;
 
-    private TorneoDAOImplementacion(DataSource dataSource) { 
-        this.dataSource = dataSource; 
+    public TorneoDAOImplementacion() { 
+        this.dataSource = DBConnection.getMySQLDataSource(); 
     }
 
-    public static TorneoDAOImplementacion getInstancia(DataSource dataSource) {
+    public static TorneoDAOImplementacion getInstancia() {
         if (instancia == null) {
-            instancia = new TorneoDAOImplementacion(dataSource);
+            instancia = new TorneoDAOImplementacion();
         }
         return instancia;
     }
@@ -96,36 +97,54 @@ public class TorneoDAOImplementacion implements TorneoDAO {
     @Override
     public List<Torneo> obtenerTodosLosTorneos() {
         List<Torneo> torneos = new ArrayList<>();
-        String sql = "SELECT * grupo FROM torneo";
+        String sql = "SELECT * FROM torneo";
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Torneo torneo = mapearResultSetATorneo(resultSet);
-                    torneos.add(torneo);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Torneo torneo = mapearResultSetATorneo(resultSet);
+                torneos.add(torneo);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return torneos;
-
     }
+    
 
     private Torneo mapearResultSetATorneo(ResultSet resultSet) throws SQLException {
-        int torneoId = 0;
-        String nombre = "";
-        char codRegion = ' ';
-        float puntosVictoria = 0;
+        Torneo torneo = new Torneo();
+        torneo.setId(resultSet.getInt("id"));
+        torneo.setNombre(resultSet.getString("nombre"));
+        torneo.setCodRegion(resultSet.getString("codRegion").charAt(0));
+        torneo.setPuntosVictoria(resultSet.getInt("puntosVictoria"));
+        return torneo;
+    }
     
-        while (resultSet.next()){
-            torneoId = resultSet.getInt(1);
-            nombre = resultSet.getString(2);
-            codRegion = resultSet.getString(3).charAt(0);
-            String.valueOf(codRegion);
-            puntosVictoria = resultSet.getFloat(4);
-            return new Torneo(torneoId, nombre, codRegion, puntosVictoria);
-        }
-        return null;
+    @Override
+    public Torneo obtenerTorneoRegionNombre(String codRegion, String nombre) {
+        String sql = "SELECT * FROM torneo WHERE codRegion = ? AND nombre = ?";
+            try {
+                Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, codRegion);
+                statement.setString(2, nombre);
+                ResultSet resultSet = statement.executeQuery();
+                    
+                    
+                    if (resultSet.next()) {
+                        Torneo torneo = new Torneo();
+                        torneo.setId(resultSet.getInt("id"));
+                        torneo.setNombre(resultSet.getString("nombre"));
+                        torneo.setCodRegion(resultSet.getString("codRegion").charAt(0));
+                        torneo.setPuntosVictoria(resultSet.getInt("puntosVictoria"));
+                        return torneo;
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                    return null;
+                }
+                return null;
     }
     
 }

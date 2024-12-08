@@ -7,9 +7,10 @@ public class Combate {
     private int id;
     private int idTorneo;
     
-    public Combate(int id, LocalDate fecha) {
+    public Combate(int id, LocalDate fecha, int idTorneo) {
         this.id = id;
         this.fecha = fecha;
+        this.idTorneo = idTorneo;
     }
 
     public Combate(){

@@ -31,6 +31,10 @@ public class Torneo implements Serializable {
         this.puntosVictoria = puntosVictoria;
     }
 
+    public Torneo (){
+        
+    }
+
     /**
      * Devuelve el ID del torneo.
      *

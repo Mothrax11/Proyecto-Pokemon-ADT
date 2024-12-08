@@ -10,9 +10,10 @@ public class CombateDTO {
     private EntrenadorDTO entrenador1;
     private EntrenadorDTO entrenador2;
     
-    public CombateDTO(int id, LocalDate fecha) {
+    public CombateDTO(int id, LocalDate fecha, int idTorneo) {
         this.id = id;
         this.fecha = fecha;
+        this.idTorneo = idTorneo;
     }
 
     public CombateDTO(){

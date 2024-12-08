@@ -46,9 +46,7 @@ public class Exportar {
         this.nombre = entrenador.getNombre();
         this.idEntrenador = entrenador.getId();
         this.nacionalidad = entrenador.getNacionalidad();
-        this.puntos = entrenador.getPuntos();
-        this.fechaCreacion = entrenador.getFechaCreacion();
-        this.torneos = entrenador.getTorneos();
+    
     }
 
     /**
@@ -99,13 +97,8 @@ public class Exportar {
         // Crear el nodo de torneos
         Element elementoTorneos = doc.createElement("torneos");
         doc.getDocumentElement().appendChild(elementoTorneos);
-        for (int i = 0; i < entrenador.getTorneos().size(); i++) {
-            Element elementoTorneo = doc.createElement("torneo");
-            elementoTorneos.appendChild(elementoTorneo);
-            crearElemento("nombre", torneos.get(i).getNombre(), doc, elementoTorneo);
-            String regionTorneo = Character.toString(torneos.get(i).getCodRegion());
-            crearElemento("region", regionTorneo, doc, elementoTorneo);
-        }
+
+        
 
         // Guardar el archivo XML
         Source source = new DOMSource(doc);

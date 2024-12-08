@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.proyectopokemonadt.DTO.CarnetDTO;
 import com.proyectopokemonadt.ENTIDADES.Carnet;
+import com.proyectopokemonadt.SERVICES.CarnetServices;
 
 public class CarnetDAOImplementacion implements CarnetDAO {
 
@@ -58,7 +60,7 @@ public class CarnetDAOImplementacion implements CarnetDAO {
     }
 
     @Override
-    public boolean actualizarCarnetPorIdEntrenador(id idEntrenador, Carnet carnet) {
+    public boolean actualizarCarnetPorIdEntrenador(int idEntrenador, Carnet carnet) {
         String sql = "UPDATE carnet SET fechaExpedicion = ?, puntos = ?, numVictorias = ? WHERE idEntrenador = ?";
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -75,13 +77,17 @@ public class CarnetDAOImplementacion implements CarnetDAO {
 
     @Override
     public List<Carnet> obtenerTodosLosCarnets() {
-         List <Carnet> carnets = new ArrayList<>();
+         List<Carnet> carnets = new ArrayList<>();
         String sql = "SELECT * FROM carnet";
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                Carnet carnet = mapearResultSetACarnet(resultSet);
+                    Carnet carnet = new Carnet();
+                    carnet.setIdEntrenador(resultSet.getInt("idEntrenador"));
+                    carnet.setFechaExpedicion(resultSet.getDate("fechaExpedicion").toLocalDate());
+                    carnet.setPuntos(resultSet.getFloat("puntos"));
+                    carnet.setNumVictorias(resultSet.getInt("numVictorias"));
                 carnets.add(carnet);
             }
         } catch (SQLException e) {
@@ -89,6 +95,7 @@ public class CarnetDAOImplementacion implements CarnetDAO {
         }
         return carnets;
     }
+
 
     @Override
     public Carnet obtenerCarnetPorIdEntrenador(int idEntrenador) {
