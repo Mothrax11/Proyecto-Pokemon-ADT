@@ -1,26 +1,26 @@
 package com.proyectopokemonadt.complementarias;
 
-import com.mysql.cj.log.Log;
+import com.proyectopokemonadt.DAO.EntrenadorDAOImplementacion;
+import com.proyectopokemonadt.DTO.CombateDTO;
 import com.proyectopokemonadt.DTO.EntrenadorDTO;
 import com.proyectopokemonadt.DTO.TorneoDTO;
 import com.proyectopokemonadt.ENTIDADES.Combate;
-import com.proyectopokemonadt.ENTIDADES.Entrenador;
 import com.proyectopokemonadt.ENTIDADES.Torneo;
+import com.proyectopokemonadt.SERVICES.CombateServices;
 import com.proyectopokemonadt.SERVICES.EntrenadorServices;
 import com.proyectopokemonadt.SERVICES.TorneoServices;
 import com.proyectopokemonadt.autenticacion.Login;
 import com.proyectopokemonadt.autenticacion.Registro;
-import com.proyectopokemonadt.autenticacion.Usuario;
 import com.proyectopokemonadt.autenticacion.idGenerator;
 
-import java.lang.runtime.SwitchBootstraps;
-import java.security.CodeSigner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.sql.DataSource;
-import javax.naming.InitialContext;
 
 /**
  * Clase que contiene los métodos para mostrar los menús del sistema.
@@ -32,7 +32,6 @@ import javax.naming.InitialContext;
  */
 public class Menus {
     private static DataSource dataSource = DBConnection.getMySQLDataSource();
-        static EntrenadorTemporal temp = null;
         /**
          * Muestra el menú principal del sistema, donde el usuario puede elegir entre
          * registrarse, iniciar sesión o iniciar sesión como invitado.
@@ -111,15 +110,18 @@ public class Menus {
                     respuesta = sc.next().toUpperCase();
                 }
                 vb = true;
-                temp = new EntrenadorTemporal(idGenerator.generador(), nombre, contraseña, nac);
                 List<Combate> combatesEntrenador = new ArrayList<Combate>();
                 List<Torneo> combatesTorneo = new ArrayList<Torneo>();
                 int idParaEntrenador = idGenerator.generador();
                 EntrenadorDTO edto = new EntrenadorDTO(idParaEntrenador, nombre, nac, 0f, combatesTorneo, combatesEntrenador);
+                EntrenadorTemporal temp = new EntrenadorTemporal(edto.getId(), edto.getNombre(),
+                        edto.getNacionalidad(), edto.getPuntos(),
+                        edto.getCombatesEntrenador(), edto.getTorneosEntrenador(), contraseña);
                 EntrenadorServices.getInstancia(dataSource).crearEntrenador(edto);
-               if ( Registro.creadorUsuario(nombre, contraseña, "ENT", nac, idParaEntrenador )){
-                    mostrarMenuEntrenador();
-               }
+                if ( Registro.creadorUsuario(nombre, contraseña, "ENT", nac, idParaEntrenador )){
+
+                    mostrarMenuEntrenador(temp);
+                }
                 
         }
     }
@@ -138,7 +140,10 @@ public class Menus {
             mostrarMenuAdminGeneral();
         } else if (idUsuario != 0) {
             if (EntrenadorServices.getInstancia(dataSource).obtenerEntrenadorPorId(idUsuario) != null) {
-                mostrarMenuEntrenador();
+                int idABuscar = Login.getInstance().obtenerIdPorNombreContraseña(nombre, contraseña);
+                EntrenadorDTO entrenadorDTO = EntrenadorServices.getInstancia(dataSource).obtenerEntrenadorPorId(idABuscar);
+                EntrenadorTemporal temp = new EntrenadorTemporal(entrenadorDTO.getId(), entrenadorDTO.getNombre(), entrenadorDTO.getNacionalidad(), entrenadorDTO.getPuntos(), entrenadorDTO.getCombatesEntrenador(), entrenadorDTO.getTorneosEntrenador(), contraseña);
+                mostrarMenuEntrenador(temp);
             } else {
                 try {
                     System.out.println("Ha habido un error al iniciar sesión, volviendo al menú principal");
@@ -242,6 +247,9 @@ public class Menus {
                             TorneoDTO torneoACrear = new TorneoDTO(idTorneo, nombre, codRegion, puntosVictoria);
                             if (TorneoServices.getInstancia(dataSource).crearTorneo(torneoACrear)) { 
                                 try {
+                                    for(int k = 0; k <= 2; k++){
+                                        CombateServices.getInstancia(dataSource).crearCombate(new CombateDTO(idGenerator.generador(), LocalDate.now(), idTorneo));
+                                    }
                                     System.out.println("Torneo creado con exito.");
                                     Thread.sleep(2000);
                                     torneoAceptado = true;
@@ -272,9 +280,8 @@ public class Menus {
      * Muestra el menú para el entrenador.
      * El entrenador puede exportar su carnet.
      */
-    public static void mostrarMenuEntrenador() {
+    public static void mostrarMenuEntrenador(EntrenadorTemporal temp) {
         Scanner sc = new Scanner(System.in);
-        // Limpia la consola (dependiendo de la terminal)
         System.out.println("---------------------------------------------------------------");
         System.out.println("Bienvenido Entrenador, ¿que desea hacer?");
         System.out.println("1 -> Exportar mi carnet");
@@ -285,12 +292,40 @@ public class Menus {
         int eleccion = sc.nextInt();
 
        if(eleccion == 1){
+        Exportar ex = new Exportar(temp);
+        if(ex.ejecutar()){
+    
+            try {
+                System.out.println("Carnet exportado con exito, volviendo al menu de entrenador");
+                Thread.sleep(2000);
+                mostrarMenuEntrenador(temp);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
        }
 
        if(eleccion == 2){
+           System.out.println("A que torneo le gustaria apuntarse? (Introducir numero):");
             List<Torneo> torneos = TorneoServices.getInstancia(dataSource).obtenerTodosLosTorneos();
             TorneoServices.getInstancia(dataSource).obtenerTodosLosTorneosToString();
+            int eleccionTorneo = sc.nextInt();
+            Random rm = new Random();
+            
+            if(rm.nextInt(100) >= 0 && rm.nextInt(100) < 50){
+                System.out.println("Se ha apuntado al torneo " + torneos.get(eleccionTorneo).getNombre() + " con exito.");
+            } else {
+                System.out.println("El torneo " + torneos.get(eleccionTorneo).getNombre() + " está lleno");
+            }
+            try {
+                System.out.println("Volviendo al menu de entrenador");
+                Thread.sleep(2000);
+                mostrarMenuEntrenador(temp);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            
         }
 
        if(eleccion == 3){
@@ -318,11 +353,11 @@ public class Menus {
         int eleccion = sc.nextInt();
         switch (eleccion) {
             case 1:
-                
+                System.out.println("Funcion no implementada");
                 break;
         
             case 2:
-                
+                System.out.println("Funcion no implementada");
                 break;
         
             case 3:

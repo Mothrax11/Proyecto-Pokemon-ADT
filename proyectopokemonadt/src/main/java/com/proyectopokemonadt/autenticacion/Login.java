@@ -119,4 +119,28 @@ public class Login {
         }
         
     }
+
+    public int obtenerIdPorNombreContraseña(String nombre, String contraseña){
+
+        String buscar;
+        File rd = new File("proyectopokemonadt\\src\\main\\java\\com\\proyectopokemonadt\\archviosComplementarios",
+                "credenciales.txt");
+
+        try {
+            FileReader fr = new FileReader(rd);
+            BufferedReader br = new BufferedReader(fr);
+            int idUser = 0;
+            while ((buscar = br.readLine()) != null) {
+                String[] palabrasLinea = buscar.split(" ");
+                if (palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(contraseña)) {
+                    idUser = Integer.parseInt(palabrasLinea[3]);
+                }
+            }
+            br.close();
+            return idUser;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
 }

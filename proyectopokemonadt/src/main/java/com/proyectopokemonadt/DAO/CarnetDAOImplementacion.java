@@ -9,16 +9,15 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.proyectopokemonadt.DTO.CarnetDTO;
 import com.proyectopokemonadt.ENTIDADES.Carnet;
-import com.proyectopokemonadt.SERVICES.CarnetServices;
+import com.proyectopokemonadt.complementarias.DBConnection;
 
 public class CarnetDAOImplementacion implements CarnetDAO {
 
     private static CarnetDAOImplementacion instancia;
     private DataSource dataSource;
     private CarnetDAOImplementacion(DataSource dataSource) {
-        this.dataSource = dataSource;
+        this.dataSource = DBConnection.getMySQLDataSource();
     }
 
     public static CarnetDAOImplementacion getInstancia(DataSource dataSource) {

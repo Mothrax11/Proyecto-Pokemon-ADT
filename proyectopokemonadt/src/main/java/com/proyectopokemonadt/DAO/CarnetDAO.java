@@ -1,7 +1,6 @@
 package com.proyectopokemonadt.DAO;
 
 import java.util.List;
-
 import com.proyectopokemonadt.ENTIDADES.Carnet;
 
 public interface CarnetDAO {

@@ -1,41 +1,60 @@
 package com.proyectopokemonadt.SERVICES;
 
 import com.proyectopokemonadt.DAO.CombateDAO;
+import com.proyectopokemonadt.DAO.CombateDAOImplementacion;
 import com.proyectopokemonadt.DTO.CombateDTO;
 import com.proyectopokemonadt.ENTIDADES.Combate;
+import com.proyectopokemonadt.complementarias.DBConnection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CombateServices {
-    private CombateDAO combateDAO;
+import javax.sql.DataSource;
 
-    public CombateServices(CombateDAO combateDAO) {
-        this.combateDAO = combateDAO;
+public class CombateServices {
+    
+    private static CombateServices instancia;
+    private DataSource dataSource;
+
+    private CombateServices(DataSource dataSource){
+        dataSource = DBConnection.getMySQLDataSource();
+    }
+    
+    private CombateDAOImplementacion combateDAOImplementacion = CombateDAOImplementacion.getInstance(dataSource);
+
+    public static CombateServices getInstancia(DataSource dataSource){
+        if (instancia == null) {
+            return new CombateServices(dataSource);
+        }
+        return instancia;
     }
 
-    public boolean crearCombate(Combate combate) {
-        return combateDAO.crearCombate(combate);
+    public CombateServices(CombateDAOImplementacion combateDAOImplementacion) {
+        this.combateDAOImplementacion = combateDAOImplementacion;
+    }
+
+    public boolean crearCombate(CombateDTO combatedto) {
+        return combateDAOImplementacion.crearCombate(combatedto);
     }
 
     public boolean eliminarCombatePorId(int id) {
-        return combateDAO.eliminarCombatePorId(id);
+        return combateDAOImplementacion.eliminarCombatePorId(id);
     }
 
     public boolean actualizarCombate(int idCombate, Combate combate) {
-        return combateDAO.actualizarCombate(idCombate, combate);
+        return combateDAOImplementacion.actualizarCombate(idCombate, combate);
     }
 
     public Combate obtenerCombatePorId(int id) {
-        return combateDAO.obtenerCombatePorId(id);
+        return combateDAOImplementacion.obtenerCombatePorId(id);
     }
 
     public List<Combate> obtenerTodosLosCombates() {
-        return combateDAO.obtenerTodosLosCombates();
+        return combateDAOImplementacion.obtenerTodosLosCombates();
     }
 
     public List<Combate> obtenerTodosLosCombatesPorIdTorneo(int idTorneo) {
-        return combateDAO.obtenerTodosLosCombatesPorIdTorneo(idTorneo);
+        return combateDAOImplementacion.obtenerTodosLosCombatesPorIdTorneo(idTorneo);
     }
 
      public static CombateDTO mapearEntidadACombateDTO(Combate combate) {

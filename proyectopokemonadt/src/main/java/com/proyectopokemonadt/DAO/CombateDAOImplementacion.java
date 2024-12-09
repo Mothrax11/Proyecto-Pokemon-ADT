@@ -8,17 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
+
+import com.proyectopokemonadt.DTO.CombateDTO;
 import com.proyectopokemonadt.ENTIDADES.Combate;
+import com.proyectopokemonadt.complementarias.DBConnection;
 
 public class CombateDAOImplementacion implements CombateDAO {
 
-    private CombateDAOImplementacion instancia;
+    private static CombateDAOImplementacion instancia;
     private DataSource dataSource;
+
     private CombateDAOImplementacion(DataSource dataSource){
-        this.dataSource = dataSource;
+        this.dataSource = DBConnection.getMySQLDataSource();
     }
 
-    public CombateDAOImplementacion getInstance(DataSource dataSource){
+    public static CombateDAOImplementacion getInstance(DataSource dataSource){
         if (instancia == null) {
             instancia = new CombateDAOImplementacion(dataSource);
         }
@@ -26,13 +30,13 @@ public class CombateDAOImplementacion implements CombateDAO {
     }
 
     @Override
-    public boolean crearCombate(Combate combate) {
+    public boolean crearCombate(CombateDTO combatedto) {
          String sql = "INSERT INTO combate (id, fecha, idTorneo) VALUES (?,?,?)";
         try (Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, combate.getId());
-                statement.setDate(2, java.sql.Date.valueOf(combate.getFecha()));
-                statement.setInt(3, combate.getIdTorneo());
+                statement.setInt(1, combatedto.getId());
+                statement.setDate(2, java.sql.Date.valueOf(combatedto.getFecha()));
+                statement.setInt(3, combatedto.getIdTorneo());
                 statement.executeUpdate();
                 return true;
         } catch (SQLException e) {
