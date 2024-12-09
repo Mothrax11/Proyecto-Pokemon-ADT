@@ -1,6 +1,5 @@
 package com.proyectopokemonadt.SERVICES;
 
-import com.proyectopokemonadt.DAO.TorneoDAO;
 import com.proyectopokemonadt.DAO.TorneoDAOImplementacion;
 import com.proyectopokemonadt.DTO.TorneoDTO;
 import com.proyectopokemonadt.ENTIDADES.Torneo;
@@ -58,14 +57,6 @@ public class TorneoServices {
         }
     }
 
-    private Torneo mapearResultSetATorneo(ResultSet resultSet) throws SQLException {
-        Torneo torneo = new Torneo();
-        torneo.setId(resultSet.getInt("id"));
-        torneo.setNombre(resultSet.getString("nombre"));
-        torneo.setCodRegion(resultSet.getString("codRegion").charAt(0));
-        torneo.setPuntosVictoria(resultSet.getInt("puntosVictoria"));
-        return torneo;
-    }
     public List<Torneo> obtenerTodosLosTorneos() {
         List<Torneo> torneos = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();

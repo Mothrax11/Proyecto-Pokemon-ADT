@@ -1,30 +1,24 @@
 package com.proyectopokemonadt.SERVICES;
 
-import com.proyectopokemonadt.DAO.CombateDAO;
+
 import com.proyectopokemonadt.DAO.CombateDAOImplementacion;
 import com.proyectopokemonadt.DTO.CombateDTO;
 import com.proyectopokemonadt.ENTIDADES.Combate;
-import com.proyectopokemonadt.complementarias.DBConnection;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 public class CombateServices {
     
     private static CombateServices instancia;
-    private DataSource dataSource;
-
-    private CombateServices(DataSource dataSource){
-        dataSource = DBConnection.getMySQLDataSource();
+    private CombateServices(){
+       
     }
     
-    private CombateDAOImplementacion combateDAOImplementacion = CombateDAOImplementacion.getInstance(dataSource);
+    private CombateDAOImplementacion combateDAOImplementacion = CombateDAOImplementacion.getInstance();
 
-    public static CombateServices getInstancia(DataSource dataSource){
+    public static CombateServices getInstancia(){
         if (instancia == null) {
-            return new CombateServices(dataSource);
+            instancia = new CombateServices();
         }
         return instancia;
     }
@@ -53,8 +47,8 @@ public class CombateServices {
         return combateDAOImplementacion.obtenerTodosLosCombates();
     }
 
-    public List<Combate> obtenerTodosLosCombatesPorIdTorneo(int idTorneo) {
-        return combateDAOImplementacion.obtenerTodosLosCombatesPorIdTorneo(idTorneo);
+    public List<CombateDTO> obtenerTodosLosCombatesPorIdTorneo(int idTorneo) {
+        return mapearListaEntidadAListaCombateDTO(combateDAOImplementacion.obtenerTodosLosCombatesPorIdTorneo(idTorneo));
     }
 
      public static CombateDTO mapearEntidadACombateDTO(Combate combate) {

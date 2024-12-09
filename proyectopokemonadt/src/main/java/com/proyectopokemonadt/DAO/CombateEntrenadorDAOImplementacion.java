@@ -19,13 +19,13 @@ public class CombateEntrenadorDAOImplementacion implements CombateEntrenadorDAO 
     private static CombateEntrenadorDAOImplementacion instancia;
     private DataSource dataSource;
 
-    private CombateEntrenadorDAOImplementacion(DataSource dataSource){
+    private CombateEntrenadorDAOImplementacion(){
         this.dataSource = DBConnection.getMySQLDataSource();
     }
 
-    public static CombateEntrenadorDAOImplementacion getInstancia(DataSource dataSource) {
+    public static CombateEntrenadorDAOImplementacion getInstancia() {
         if (instancia == null) {
-            instancia = new CombateEntrenadorDAOImplementacion(dataSource);
+            instancia = new CombateEntrenadorDAOImplementacion();
         }
         return instancia;
     }

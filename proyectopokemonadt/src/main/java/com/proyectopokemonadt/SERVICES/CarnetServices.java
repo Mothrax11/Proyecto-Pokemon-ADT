@@ -3,29 +3,24 @@ package com.proyectopokemonadt.SERVICES;
 import com.proyectopokemonadt.DAO.CarnetDAO;
 import com.proyectopokemonadt.DTO.CarnetDTO;
 import com.proyectopokemonadt.ENTIDADES.Carnet;
-import com.proyectopokemonadt.complementarias.DBConnection;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 public class CarnetServices {
 
     private CarnetDAO carnetDAO;
     private static CarnetServices instancia;
-    private DataSource dataSource = DBConnection.getMySQLDataSource();
 
-
-    public static CarnetServices getInstancia(DataSource dataSource) {
+    public static CarnetServices getInstancia() {
         if (instancia == null) {
-            return new CarnetServices(dataSource);
+            instancia = new CarnetServices();
         }
         return instancia;
     }
 
-    public CarnetServices(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public CarnetServices() {
+       
     }
 
     public CarnetServices(CarnetDAO carnetDAO) {

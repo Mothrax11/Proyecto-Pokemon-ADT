@@ -8,9 +8,9 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 public class DBConnection {
     
     private static DBConnection instance;
-    private DataSource dataSource;
+
     private DBConnection (DataSource dataSource) {
-        this.dataSource = dataSource;
+    
     }
 
     public static DBConnection getInstance(DataSource dataSource) {

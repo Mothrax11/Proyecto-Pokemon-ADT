@@ -1,1 +1,52 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><carnet><id>4</id><fechaexp>09 12 2024</fechaexp><entrenador><nombre>mothrax</nombre><nacionalidad>ES</nacionalidad><hoy>09 12 2024</hoy><puntos>0</puntos></entrenador><torneos><torneo><nombre>TorneoPruebaCombates2</nombre><combate><id>26</id><fecha>2024-12-09</fecha><resultado>Victoria</resultado></combate><combate><id>27</id><fecha>2024-12-09</fecha><resultado>Victoria</resultado></combate></torneo></torneos></carnet>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<carnet>
+	<id>
+		4
+	</id>
+	<fechaexp>
+		09 12 2024
+	</fechaexp>
+	<entrenador>
+		<nombre>
+			mothrax
+		</nombre>
+		<nacionalidad>
+			ES
+		</nacionalidad>
+		<hoy>
+			09 12 2024
+		</hoy>
+		<puntos>
+			0
+		</puntos>
+	</entrenador>
+	<torneos>
+		<torneo>
+			<nombre>
+				TorneoPruebaCombates2
+			</nombre>
+			<combate>
+				<id>
+					26
+				</id>
+				<fecha>
+					2024-12-09
+				</fecha>
+				<resultado>
+					Victoria
+				</resultado>
+			</combate>
+			<combate>
+				<id>
+					27
+				</id>
+				<fecha>
+					2024-12-09
+				</fecha>
+				<resultado>
+					Victoria
+				</resultado>
+			</combate>
+		</torneo>
+	</torneos>
+</carnet>

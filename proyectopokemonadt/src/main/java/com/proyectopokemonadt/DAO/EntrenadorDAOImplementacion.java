@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
-
-import com.proyectopokemonadt.DTO.CombateDTO;
 import com.proyectopokemonadt.ENTIDADES.Combate;
 import com.proyectopokemonadt.ENTIDADES.Entrenador;
 import com.proyectopokemonadt.ENTIDADES.Torneo;

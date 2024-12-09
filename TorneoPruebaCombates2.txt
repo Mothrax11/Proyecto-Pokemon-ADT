@@ -1,0 +1,7 @@
+Nombre Torneo: TorneoPruebaCombates2
+Region Torneo: E
+Combates del torneo
+Combate 0: 2024-12-09 | nullnull
+Combate 1: 2024-12-09 | nullnull
+Combate 2: 2024-12-09 | nullnull
+Puntos por victoria: 2.0

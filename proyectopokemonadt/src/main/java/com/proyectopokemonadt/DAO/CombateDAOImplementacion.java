@@ -18,13 +18,13 @@ public class CombateDAOImplementacion implements CombateDAO {
     private static CombateDAOImplementacion instancia;
     private DataSource dataSource;
 
-    private CombateDAOImplementacion(DataSource dataSource){
+    private CombateDAOImplementacion(){
         this.dataSource = DBConnection.getMySQLDataSource();
     }
 
-    public static CombateDAOImplementacion getInstance(DataSource dataSource){
+    public static CombateDAOImplementacion getInstance(){
         if (instancia == null) {
-            instancia = new CombateDAOImplementacion(dataSource);
+            instancia = new CombateDAOImplementacion();
         }
         return instancia;
     }
@@ -95,11 +95,12 @@ public class CombateDAOImplementacion implements CombateDAO {
 
     @Override
     public List<Combate> obtenerTodosLosCombatesPorIdTorneo(int id) {
-      String sql = "SELECT * FROM combate WHERE id_torneo = ?";
+      String sql = "SELECT * FROM combate WHERE idTorneo = ?";
       List<Combate> combatesTorneo = new ArrayList<>();
-      try (Connection connection = dataSource.getConnection();
+      try {Connection connection = dataSource.getConnection();
               PreparedStatement statement = connection.prepareStatement(sql);
-              ResultSet resultSet = statement.executeQuery()) {
+              statement.setInt(1, id);
+              ResultSet resultSet = statement.executeQuery();
           while (resultSet.next()) {
               Combate combate = mapearResultSetACombate(resultSet);
               combatesTorneo.add(combate);

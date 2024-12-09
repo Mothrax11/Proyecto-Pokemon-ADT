@@ -1,0 +1,4 @@
+Nombre Torneo: TorneoCaucásico
+Region Torneo: A
+Combates del torneo
+Puntos por victoria: 150.0

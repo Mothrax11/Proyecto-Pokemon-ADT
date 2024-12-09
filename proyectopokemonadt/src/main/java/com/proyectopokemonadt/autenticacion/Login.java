@@ -100,7 +100,7 @@ public class Login {
                 String[] palabrasLinea = buscar.split(" ");
                 if (palabrasLinea[0].equals(nombre) && palabrasLinea[1].equals(pass)) {
                     if (palabrasLinea[2].equals("AT")) {
-                        Menus.mostrarMenuAdministradorTorneos();
+                        Menus.mostrarMenuAdministradorTorneos(null);
                         idUser = Integer.parseInt(palabrasLinea[3]);
                         return idUser;
                     } else if(palabrasLinea[2].equals("ENT")){
